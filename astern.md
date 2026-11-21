@@ -1,4 +1,4 @@
-> built 2026-11-21 15:38 UTC from 6a22b6a (main) · astern 0.0.12. Details: build_info.json
+> built 2026-11-21 22:38 UTC from 342010b (main) · astern 0.0.12. Details: build_info.json
 
 # index.html.md
 
@@ -2246,16 +2246,18 @@ Size and coverage of a rendered view — the cost model’s cheap regressor.
 
 # About this build
 
-This documentation was built on **2026-11-21 15:38 UTC** from commit <a href="https://github.com/addaix/astern/commit/6a22b6a1a2964d78a7ea7372560b0df3f21e8078"><code>6a22b6a</code></a> on branch <code>main</code>, for **astern 0.0.12** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-21 22:38 UTC** from commit <a href="https://github.com/addaix/astern/commit/342010b10b58099efc5b50b61a9bf6f5b6776e6a"><code>342010b</code></a> on branch <code>main</code>, for **astern 0.0.12** (from <code>pyproject.toml</code>).
 
-#### NOTE
-Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
+#### WARNING
+The documentation and the package may be misaligned:
+
+- The documented version (0.0.12) is behind the latest release on PyPI (0.0.13): `pip install astern` gives newer code than these docs describe.
 
 ## Source
 
 |                     |                                                                                                                                                      |
 |---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/addaix/astern/commit/6a22b6a1a2964d78a7ea7372560b0df3f21e8078"><code>6a22b6a1a2964d78a7ea7372560b0df3f21e8078</code></a> |
+| Commit              | <a href="https://github.com/addaix/astern/commit/342010b10b58099efc5b50b61a9bf6f5b6776e6a"><code>342010b10b58099efc5b50b61a9bf6f5b6776e6a</code></a> |
 | Branch              | <code>main</code>                                                                                                                                    |
 | Tags at this commit | none                                                                                                                                                 |
 | Working tree        | clean                                                                                                                                                |
@@ -2266,15 +2268,15 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>addaix/astern</code>                                                                 |
-| Run          | <a href="https://github.com/addaix/astern/actions/runs/44920136490">44920136490</a>        |
+| Run          | <a href="https://github.com/addaix/astern/actions/runs/44957619846">44957619846</a>        |
 | Ref          | <code>refs/heads/main</code>                                                               |
-| Event commit | <code>6a22b6a1a2964d78a7ea7372560b0df3f21e8078</code> (in the history of the built commit) |
+| Event commit | <code>342010b10b58099efc5b50b61a9bf6f5b6776e6a</code> (in the history of the built commit) |
 
 ## Tools
 
 |          |         |
 |----------|---------|
-| epythet  | 0.2.22  |
+| epythet  | 0.2.23  |
 | Sphinx   | 9.1.1   |
 | docutils | 0.22.4  |
 | Python   | 3.12.16 |
@@ -2293,14 +2295,14 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/astern/0.0.12/">0.0.12</a>, the same as the documented version.
+Latest release: <a href="https://pypi.org/project/astern/0.0.13/">0.0.13</a>, newer than the documented version (0.0.12).
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/addaix/astern && cd astern
-git checkout 6a22b6a1a2964d78a7ea7372560b0df3f21e8078
-pip install "epythet==0.2.22"
+git checkout 342010b10b58099efc5b50b61a9bf6f5b6776e6a
+pip install "epythet==0.2.23"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```
 
