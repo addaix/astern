@@ -1,4 +1,4 @@
-> built 2026-11-11 11:00 UTC from 1db424e (main) · astern 0.0.11. Details: build_info.json
+> built 2026-11-21 15:38 UTC from 6a22b6a (main) · astern 0.0.12. Details: build_info.json
 
 # index.html.md
 
@@ -2246,31 +2246,29 @@ Size and coverage of a rendered view — the cost model’s cheap regressor.
 
 # About this build
 
-This documentation was built on **2026-11-11 11:00 UTC** from commit <a href="https://github.com/thorwhalen/astern/commit/1db424ea637e81d791f4cacbd30b142ba047b25c"><code>1db424e</code></a> on branch <code>main</code>, for **astern 0.0.11** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-21 15:38 UTC** from commit <a href="https://github.com/addaix/astern/commit/6a22b6a1a2964d78a7ea7372560b0df3f21e8078"><code>6a22b6a</code></a> on branch <code>main</code>, for **astern 0.0.12** (from <code>pyproject.toml</code>).
 
-#### WARNING
-The documentation and the package may be misaligned:
-
-- The documented version (0.0.11) is behind the latest release on PyPI (0.0.12): `pip install astern` gives newer code than these docs describe.
+#### NOTE
+Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
 
 ## Source
 
-|                     |                                                                                                                                                          |
-|---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/astern/commit/1db424ea637e81d791f4cacbd30b142ba047b25c"><code>1db424ea637e81d791f4cacbd30b142ba047b25c</code></a> |
-| Branch              | <code>main</code>                                                                                                                                        |
-| Tags at this commit | none                                                                                                                                                     |
-| Working tree        | clean                                                                                                                                                    |
-| Remote              | <code>https://github.com/thorwhalen/astern</code>                                                                                                        |
+|                     |                                                                                                                                                      |
+|---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Commit              | <a href="https://github.com/addaix/astern/commit/6a22b6a1a2964d78a7ea7372560b0df3f21e8078"><code>6a22b6a1a2964d78a7ea7372560b0df3f21e8078</code></a> |
+| Branch              | <code>main</code>                                                                                                                                    |
+| Tags at this commit | none                                                                                                                                                 |
+| Working tree        | clean                                                                                                                                                |
+| Remote              | <code>https://github.com/addaix/astern</code>                                                                                                        |
 
 ## Continuous integration
 
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
-| Repository   | <code>thorwhalen/astern</code>                                                             |
-| Run          | <a href="https://github.com/thorwhalen/astern/actions/runs/43008144718">43008144718</a>    |
+| Repository   | <code>addaix/astern</code>                                                                 |
+| Run          | <a href="https://github.com/addaix/astern/actions/runs/44920136490">44920136490</a>        |
 | Ref          | <code>refs/heads/main</code>                                                               |
-| Event commit | <code>1db424ea637e81d791f4cacbd30b142ba047b25c</code> (in the history of the built commit) |
+| Event commit | <code>6a22b6a1a2964d78a7ea7372560b0df3f21e8078</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -2295,13 +2293,13 @@ The documentation and the package may be misaligned:
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/astern/0.0.12/">0.0.12</a>, newer than the documented version (0.0.11).
+Latest release: <a href="https://pypi.org/project/astern/0.0.12/">0.0.12</a>, the same as the documented version.
 
 ## Reproduce
 
 ```bash
-git clone https://github.com/thorwhalen/astern && cd astern
-git checkout 1db424ea637e81d791f4cacbd30b142ba047b25c
+git clone https://github.com/addaix/astern && cd astern
+git checkout 6a22b6a1a2964d78a7ea7372560b0df3f21e8078
 pip install "epythet==0.2.22"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```
@@ -2328,10 +2326,10 @@ Skills are folders holding a `SKILL.md` (the [Agent Skills](https://agentskills.
 Find past Claude Code sessions, on every machine and account, and say what they decided, tried and produced. Use whenever the user refers to earlier work, however casually: “we did X”, “remember when we”, “that old session”, “the session where”, “last week/month we”, “find the work on X”, “where did we leave X”, “what did we decide about X”, “did we ever look at X”, “why did we do X that way”, “catch me up on project X”, “what happened last time”, “find that conversation”, “it was on the server / another machine” — and proactively before re-deriving a decision on a project untouched for weeks. Searches both local accounts (~/.claude, ~/.claude-iq) and mirrors of the other machines automatically: `astern grep` (regex over raw transcripts, no index, seconds) for names, identifiers and phrases, `astern recall` (ir hybrid search over the synced store) for paraphrases and decisions. Reads the hits with `astern show`; writes a briefing when asked. Read-only on the sessions.
 
 ```bash
-gh skill install thorwhalen/astern astern-recall --agent claude-code
+gh skill install addaix/astern astern-recall --agent claude-code
 ```
 
-Source: [`astern/data/skills/astern-recall`](https://github.com/thorwhalen/astern/tree/HEAD/astern/data/skills/astern-recall) (bundled with the pip package).
+Source: [`astern/data/skills/astern-recall`](https://github.com/addaix/astern/tree/HEAD/astern/data/skills/astern-recall) (bundled with the pip package).
 
 The bundled skills are also on disk after `pip install astern`, under the package’s `data/skills/` directory; link them into an agent without network access with `skill link-skills <that directory>`.
 
@@ -2339,16 +2337,16 @@ The bundled skills are also on disk after `pip install astern`, under the packag
 
 Files agents read before working in this repository.
 
-- [`CLAUDE.md`](https://github.com/thorwhalen/astern/tree/HEAD/CLAUDE.md): read by Claude Code
+- [`CLAUDE.md`](https://github.com/addaix/astern/tree/HEAD/CLAUDE.md): read by Claude Code
 
 ## Machine-readable documentation
 
 This site publishes the same documentation in forms that fit an agent’s context window:
 
-- [`llms.txt`](https://thorwhalen.github.io/astern/llms.txt): an index of every page with a one-line description ([llms.txt](https://llmstxt.org) format)
-- [`astern.md`](https://thorwhalen.github.io/astern/astern.md): the whole documentation as one Markdown file
+- [`llms.txt`](https://addaix.github.io/astern/llms.txt): an index of every page with a one-line description ([llms.txt](https://llmstxt.org) format)
+- [`astern.md`](https://addaix.github.io/astern/astern.md): the whole documentation as one Markdown file
 - `<page>.html.md`: a rendered Markdown twin of every page, advertised from each page’s `<head>` with `<link rel="alternate" type="text/markdown">`
-- [`objects.inv`](https://thorwhalen.github.io/astern/objects.inv): the Sphinx inventory: a symbol-to-URL index (`sphobjinv convert plain objects.inv -`)
+- [`objects.inv`](https://addaix.github.io/astern/objects.inv): the Sphinx inventory: a symbol-to-URL index (`sphobjinv convert plain objects.inv -`)
 
 
 # api.html.md

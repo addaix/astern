@@ -15,10 +15,10 @@ Skills are folders holding a `SKILL.md` (the [Agent Skills](https://agentskills.
 Find past Claude Code sessions, on every machine and account, and say what they decided, tried and produced. Use whenever the user refers to earlier work, however casually: “we did X”, “remember when we”, “that old session”, “the session where”, “last week/month we”, “find the work on X”, “where did we leave X”, “what did we decide about X”, “did we ever look at X”, “why did we do X that way”, “catch me up on project X”, “what happened last time”, “find that conversation”, “it was on the server / another machine” — and proactively before re-deriving a decision on a project untouched for weeks. Searches both local accounts (~/.claude, ~/.claude-iq) and mirrors of the other machines automatically: `astern grep` (regex over raw transcripts, no index, seconds) for names, identifiers and phrases, `astern recall` (ir hybrid search over the synced store) for paraphrases and decisions. Reads the hits with `astern show`; writes a briefing when asked. Read-only on the sessions.
 
 ```bash
-gh skill install thorwhalen/astern astern-recall --agent claude-code
+gh skill install addaix/astern astern-recall --agent claude-code
 ```
 
-Source: [`astern/data/skills/astern-recall`](https://github.com/thorwhalen/astern/tree/HEAD/astern/data/skills/astern-recall) (bundled with the pip package).
+Source: [`astern/data/skills/astern-recall`](https://github.com/addaix/astern/tree/HEAD/astern/data/skills/astern-recall) (bundled with the pip package).
 
 The bundled skills are also on disk after `pip install astern`, under the package’s `data/skills/` directory; link them into an agent without network access with `skill link-skills <that directory>`.
 
@@ -26,13 +26,13 @@ The bundled skills are also on disk after `pip install astern`, under the packag
 
 Files agents read before working in this repository.
 
-- [`CLAUDE.md`](https://github.com/thorwhalen/astern/tree/HEAD/CLAUDE.md): read by Claude Code
+- [`CLAUDE.md`](https://github.com/addaix/astern/tree/HEAD/CLAUDE.md): read by Claude Code
 
 ## Machine-readable documentation
 
 This site publishes the same documentation in forms that fit an agent’s context window:
 
-- [`llms.txt`](https://thorwhalen.github.io/astern/llms.txt): an index of every page with a one-line description ([llms.txt](https://llmstxt.org) format)
-- [`astern.md`](https://thorwhalen.github.io/astern/astern.md): the whole documentation as one Markdown file
+- [`llms.txt`](https://addaix.github.io/astern/llms.txt): an index of every page with a one-line description ([llms.txt](https://llmstxt.org) format)
+- [`astern.md`](https://addaix.github.io/astern/astern.md): the whole documentation as one Markdown file
 - `<page>.html.md`: a rendered Markdown twin of every page, advertised from each page’s `<head>` with `<link rel="alternate" type="text/markdown">`
-- [`objects.inv`](https://thorwhalen.github.io/astern/objects.inv): the Sphinx inventory: a symbol-to-URL index (`sphobjinv convert plain objects.inv -`)
+- [`objects.inv`](https://addaix.github.io/astern/objects.inv): the Sphinx inventory: a symbol-to-URL index (`sphobjinv convert plain objects.inv -`)

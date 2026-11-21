@@ -1,32 +1,32 @@
 {
   "schema_version": 1,
-  "built_at": "2026-11-11T11:00:33Z",
+  "built_at": "2026-11-21T15:38:28Z",
   "package": {
     "name": "astern",
-    "version": "0.0.11",
+    "version": "0.0.12",
     "display_name": "astern",
     "source": "pyproject.toml"
   },
   "git": {
     "available": true,
-    "commit": "1db424ea637e81d791f4cacbd30b142ba047b25c",
-    "short_commit": "1db424e",
+    "commit": "6a22b6a1a2964d78a7ea7372560b0df3f21e8078",
+    "short_commit": "6a22b6a",
     "branch": "main",
     "tags": [],
     "dirty": false,
-    "remote_url": "https://github.com/thorwhalen/astern",
-    "commit_url": "https://github.com/thorwhalen/astern/commit/1db424ea637e81d791f4cacbd30b142ba047b25c",
+    "remote_url": "https://github.com/addaix/astern",
+    "commit_url": "https://github.com/addaix/astern/commit/6a22b6a1a2964d78a7ea7372560b0df3f21e8078",
     "error": null
   },
   "ci": {
     "provider": "github",
-    "repository": "thorwhalen/astern",
-    "sha": "1db424ea637e81d791f4cacbd30b142ba047b25c",
+    "repository": "addaix/astern",
+    "sha": "6a22b6a1a2964d78a7ea7372560b0df3f21e8078",
     "sha_in_history": true,
     "ref": "refs/heads/main",
     "ref_name": "main",
-    "run_id": "43008144718",
-    "run_url": "https://github.com/thorwhalen/astern/actions/runs/43008144718",
+    "run_id": "44920136490",
+    "run_url": "https://github.com/addaix/astern/actions/runs/44920136490",
     "server_url": "https://github.com"
   },
   "tools": {
@@ -61,15 +61,13 @@
   "pypi": {
     "checked": true,
     "latest": "0.0.12",
-    "relation": "behind",
+    "relation": "same",
     "error": null
   },
-  "reproduce": "git clone https://github.com/thorwhalen/astern && cd astern\ngit checkout 1db424ea637e81d791f4cacbd30b142ba047b25c\npip install \"epythet==0.2.22\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
+  "reproduce": "git clone https://github.com/addaix/astern && cd astern\ngit checkout 6a22b6a1a2964d78a7ea7372560b0df3f21e8078\npip install \"epythet==0.2.22\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
   "warnings": [],
   "alignment": {
-    "aligned": false,
-    "notes": [
-      "The documented version (0.0.11) is behind the latest release on PyPI (0.0.12): `pip install astern` gives newer code than these docs describe."
-    ]
+    "aligned": true,
+    "notes": []
   }
 }
