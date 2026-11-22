@@ -20,11 +20,12 @@
 - [astern.skills](_autosummary/astern.skills.html.md): The skills astern ships, and the command that makes an agent host see them.
 - [astern.sources](_autosummary/astern.sources.html.md): Where the transcripts are: homes, session files, raw records.
 - [astern.store](_autosummary/astern.store.html.md): Where records, findings and the ledger live: one directory, several JSON stores.
+- [astern.timeledger](_autosummary/astern.timeledger.html.md): Time ledger: where the owner’s time and the agents’ time went, per bucket, over a window.
 - [astern.tools](_autosummary/astern.tools.html.md): The SSOT of what astern does: plain functions, JSON-able in, JSON-able dict out.
 - [astern.turns](_autosummary/astern.turns.html.md): From raw transcript records to one record per user→assistant turn, plus session meta.
 - [astern.views](_autosummary/astern.views.html.md): The compressed markdown a judge reads instead of a transcript.
 - [For AI agents](ai-agents.html.md): &#96;astern&#96; ships artifacts for coding agents alongside its code. This page lists
-- [About this build](about-this-build.html.md): This documentation was built on &#42;&#42;2026-11-21 22:38 UTC&#42;&#42; from commit &lt;a href="https://github.com/add...
+- [About this build](about-this-build.html.md): This documentation was built on &#42;&#42;2026-11-22 14:52 UTC&#42;&#42; from commit &lt;a href="https://github.com/add...
 
 ## Optional
 

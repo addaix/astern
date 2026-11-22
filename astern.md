@@ -1,4 +1,4 @@
-> built 2026-11-21 22:38 UTC from 342010b (main) · astern 0.0.12. Details: build_info.json
+> built 2026-11-22 14:52 UTC from 64d8fbb (main) · astern 0.0.13. Details: build_info.json
 
 # index.html.md
 
@@ -537,22 +537,23 @@ turn that wrote it, and [`astern.judge`](_autosummary/astern.judge.html.md#modul
 
 ### Modules
 
-| [`entire`](_autosummary/astern.entire.html.md#module-astern.entire)         | Enable and inspect the [Entire CLI](https://github.com/entireio/cli) safely, per repo.   |
-|--------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------|
-| [`estimate`](_autosummary/astern.estimate.html.md#module-astern.estimate)     | What will judging this batch cost? — features, a fitted model, a prediction.             |
-| [`grep`](_autosummary/astern.grep.html.md#module-astern.grep)             | Regex search over raw transcripts, across every home, with no index to maintain.         |
-| [`judge`](_autosummary/astern.judge.html.md#module-astern.judge)           | The `judge=` seam: an LLM call that returns text or JSON *and says what it cost*.        |
-| [`ledger`](_autosummary/astern.ledger.html.md#module-astern.ledger)         | Idempotency: what has already been analyzed, so no token is spent twice.                 |
-| [`lenses`](_autosummary/astern.lenses.html.md#astern.lenses)()              | The registered lenses: name, kind (H = heuristic, L = LLM-judged), version, one line.    |
-| [`provenance`](_autosummary/astern.provenance.html.md#module-astern.provenance) | From a line of code back to the session turn that wrote it.                              |
-| [`recall`](_autosummary/astern.recall.html.md#module-astern.recall)         | Recall: what did past sessions already think, try and decide about X?                    |
-| [`report`](_autosummary/astern.report.html.md#module-astern.report)         | Cross-session reports: one aggregator + markdown renderer per lens.                      |
-| [`skills`](_autosummary/astern.skills.html.md#module-astern.skills)         | The skills astern ships, and the command that makes an agent host see them.              |
-| [`sources`](_autosummary/astern.sources.html.md#module-astern.sources)       | Where the transcripts are: homes, session files, raw records.                            |
-| [`store`](_autosummary/astern.store.html.md#module-astern.store)           | Where records, findings and the ledger live: one directory, several JSON stores.         |
-| [`tools`](_autosummary/astern.tools.html.md#module-astern.tools)           | The SSOT of what astern does: plain functions, JSON-able in, JSON-able dict out.         |
-| [`turns`](_autosummary/astern.turns.html.md#module-astern.turns)           | From raw transcript records to one record per user→assistant turn, plus session meta.    |
-| [`views`](_autosummary/astern.views.html.md#module-astern.views)           | The compressed markdown a judge reads instead of a transcript.                           |
+| [`entire`](_autosummary/astern.entire.html.md#module-astern.entire)         | Enable and inspect the [Entire CLI](https://github.com/entireio/cli) safely, per repo.    |
+|--------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|
+| [`estimate`](_autosummary/astern.estimate.html.md#module-astern.estimate)     | What will judging this batch cost? — features, a fitted model, a prediction.              |
+| [`grep`](_autosummary/astern.grep.html.md#module-astern.grep)             | Regex search over raw transcripts, across every home, with no index to maintain.          |
+| [`judge`](_autosummary/astern.judge.html.md#module-astern.judge)           | The `judge=` seam: an LLM call that returns text or JSON *and says what it cost*.         |
+| [`ledger`](_autosummary/astern.ledger.html.md#module-astern.ledger)         | Idempotency: what has already been analyzed, so no token is spent twice.                  |
+| [`lenses`](_autosummary/astern.lenses.html.md#astern.lenses)()              | The registered lenses: name, kind (H = heuristic, L = LLM-judged), version, one line.     |
+| [`provenance`](_autosummary/astern.provenance.html.md#module-astern.provenance) | From a line of code back to the session turn that wrote it.                               |
+| [`recall`](_autosummary/astern.recall.html.md#module-astern.recall)         | Recall: what did past sessions already think, try and decide about X?                     |
+| [`report`](_autosummary/astern.report.html.md#module-astern.report)         | Cross-session reports: one aggregator + markdown renderer per lens.                       |
+| [`skills`](_autosummary/astern.skills.html.md#module-astern.skills)         | The skills astern ships, and the command that makes an agent host see them.               |
+| [`sources`](_autosummary/astern.sources.html.md#module-astern.sources)       | Where the transcripts are: homes, session files, raw records.                             |
+| [`store`](_autosummary/astern.store.html.md#module-astern.store)           | Where records, findings and the ledger live: one directory, several JSON stores.          |
+| [`timeledger`](_autosummary/astern.timeledger.html.md#module-astern.timeledger) | Time ledger: where the owner's time and the agents' time went, per bucket, over a window. |
+| [`tools`](_autosummary/astern.tools.html.md#module-astern.tools)           | The SSOT of what astern does: plain functions, JSON-able in, JSON-able dict out.          |
+| [`turns`](_autosummary/astern.turns.html.md#module-astern.turns)           | From raw transcript records to one record per user→assistant turn, plus session meta.     |
+| [`views`](_autosummary/astern.views.html.md#module-astern.views)           | The compressed markdown a judge reads instead of a transcript.                            |
 
 
 # _autosummary/astern.judge.html.md
@@ -1723,6 +1724,191 @@ Resolve the `store=` seam: a [`Store`](_autosummary/astern.store.html.md#astern.
   [`Store`](_autosummary/astern.store.html.md#astern.store.Store)
 
 
+# _autosummary/astern.timeledger.html.md
+
+# astern.timeledger
+
+Time ledger: where the owner’s time and the agents’ time went, per bucket, over a window.
+
+Three steps, each usable alone:
+
+- [`activity()`](_autosummary/astern.timeledger.html.md#astern.timeledger.activity) reads transcripts (any homes, so several machines) and returns, per
+  top-level session, the agent’s **active seconds** as runs of `[cwd, day, seconds]`, and
+  every **owner prompt** (time, cwd, length). Active time is the sum of gaps between
+  consecutive events, each gap counted only up to `idle` seconds. An owner prompt is a
+  `user` line the transcript marks `origin.kind == "human"` (typed by a person, locally
+  or by remote control), minus briefs another agent sent that way (`dispatch_markers`).
+  Events are deduplicated by `(sessionId, uuid)` across files: a session whose repository
+  moved leaves a second transcript copy holding the same events.
+- [`commits()`](_autosummary/astern.timeledger.html.md#astern.timeledger.commits) reads `git log` of the repositories under a root and classes each
+  commit `bot`, `others` (not the owner’s identity: collaborators in shared repos),
+  `agent` (a Claude trailer or session link in the message), else `unmarked` (agents
+  commit under the owner’s identity too, so unmarked is not proof of a hand commit).
+  Dated by author date. `git log --all` overstates distinct changes: a branch commit later
+  repeated by a squash merge counts twice.
+- [`rollup()`](_autosummary/astern.timeledger.html.md#astern.timeledger.rollup) groups both by an injected `bucket(cwd) -> str | None` (see
+  [`prefix_bucket()`](_autosummary/astern.timeledger.html.md#astern.timeledger.prefix_bucket)). `None` means “outside every bucket”: that time counts for the
+  > session’s previous bucket (a scratchpad in `/tmp` belongs to the project that used it).
+
+  Owner time is credited per prompt as `min(W, minutes since the previous owner prompt on
+  any machine)`, so parallel sessions never double-count one person; `W` is reported for
+  each of `windows` (5 minutes, with 2 and 10 as the sensitivity range).
+
+Agent hours are session-hours, not wall-clock: parallel sessions add up. Nothing here reads
+prompt text beyond its length and the dispatch markers, and nothing is written anywhere.
+
+```pycon
+>>> bucket = prefix_bucket([("t/astern", "astern"), ("t/", "tools")], root="/p")
+>>> bucket("/p/t/astern/docs"), bucket("/p/t/ir"), bucket("/p/misc/x"), bucket("/tmp/s")
+('astern', 'tools', 'unmapped', None)
+```
+
+### Module Attributes
+
+| [`DISPATCH_MARKERS`](_autosummary/astern.timeledger.html.md#astern.timeledger.DISPATCH_MARKERS)   | Text that marks a prompt as a brief another agent wrote (sent through a human-kind prompt, as a spawn does): the fleet's reply contract.   |
+|---------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
+| [`UNMAPPED`](_autosummary/astern.timeledger.html.md#astern.timeledger.UNMAPPED)           | The bucket of a cwd that is inside the root but matches no rule.                                                                           |
+| [`OTHER`](_autosummary/astern.timeledger.html.md#astern.timeledger.OTHER)              | The bucket of time no rule and no previous bucket claims.                                                                                  |
+| [`DFLT_EXCLUDE`](_autosummary/astern.timeledger.html.md#astern.timeledger.DFLT_EXCLUDE)       | other people's histories are not the owner's work.                                                                                         |
+
+### Functions
+
+| [`activity`](_autosummary/astern.timeledger.html.md#astern.timeledger.activity)([home, until, idle, ...])              | Agent active time and owner prompts from the transcripts of `home` (see [`astern.sources.homes()`](_autosummary/astern.sources.html.md#astern.sources.homes); `"all"` covers every account and mirrored machine).                               |
+|--------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [`commit_kind`](_autosummary/astern.timeledger.html.md#astern.timeledger.commit_kind)(email, name, body, \*, owner)       | `bot`, `others`, `agent` or `unmarked`, in that order of precedence.                                                                                                                                                                                    |
+| [`commits`](_autosummary/astern.timeledger.html.md#astern.timeledger.commits)(root, \*, since[, until, exclude, ...]) | Commits by author date in `[since, until)` across the repositories under `root`.                                                                                                                                                                        |
+| [`is_owner_prompt`](_autosummary/astern.timeledger.html.md#astern.timeledger.is_owner_prompt)(record)                         | A prompt a person typed: `origin.kind == "human"` (not a peer message or a notification).                                                                                                                                                               |
+| [`merge`](_autosummary/astern.timeledger.html.md#astern.timeledger.merge)(\*found)                                  | Several [`activity()`](_autosummary/astern.timeledger.html.md#astern.timeledger.activity) results (one per machine, e.g. run over ssh) as one.                                                                                                                                |
+| [`prefix_bucket`](_autosummary/astern.timeledger.html.md#astern.timeledger.prefix_bucket)(rules, \*, root[, root_bucket])   | A bucket map from `(prefix, bucket)` rules, prefixes relative to `root`; first match wins.                                                                                                                                                              |
+| [`project_bucket`](_autosummary/astern.timeledger.html.md#astern.timeledger.project_bucket)(cwd)                             | The default bucket: the cwd's own folder name (one bucket per project folder).                                                                                                                                                                          |
+| [`rollup`](_autosummary/astern.timeledger.html.md#astern.timeledger.rollup)(found[, found_commits, bucket, ...])     | One row per bucket from [`activity()`](_autosummary/astern.timeledger.html.md#astern.timeledger.activity)'s result (`found`, or several merged with [`merge()`](_autosummary/astern.timeledger.html.md#astern.timeledger.merge)) and [`commits()`](_autosummary/astern.timeledger.html.md#astern.timeledger.commits). |
+
+### astern.timeledger.DFLT_EXCLUDE *= ('forks/',)*
+
+other people’s histories are not the owner’s work.
+
+* **Type:**
+  Repositories skipped by default
+
+### astern.timeledger.DISPATCH_MARKERS *= ('Reply in at most five lines',)*
+
+Text that marks a prompt as a brief another agent wrote (sent through a human-kind prompt,
+as a spawn does): the fleet’s reply contract. Pass your own with `dispatch_markers=`.
+
+### astern.timeledger.OTHER *= 'other'*
+
+The bucket of time no rule and no previous bucket claims.
+
+### astern.timeledger.UNMAPPED *= 'unmapped'*
+
+The bucket of a cwd that is inside the root but matches no rule.
+
+### astern.timeledger.activity(home=None, , since, until=None, idle=300, dispatch_markers=('Reply in at most five lines',), files=None)
+
+Agent active time and owner prompts from the transcripts of `home` (see
+[`astern.sources.homes()`](_autosummary/astern.sources.html.md#astern.sources.homes); `"all"` covers every account and mirrored machine).
+
+`since` / `until` are ISO dates or times (UTC; `until` exclusive). `files` overrides
+the transcripts read (tests pass fixtures). Returns `{"since", "until", "sessions",
+"prompts"}`: a session is `{"session", "home", "active": [[cwd, day, seconds], ...]}`
+with consecutive events in the same cwd and day merged into one run, in order; a prompt is
+`{"ts", "cwd", "chars", "session", "dispatched"}`.
+
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
+
+### astern.timeledger.commit_kind(email, name, body, , owner)
+
+`bot`, `others`, `agent` or `unmarked`, in that order of precedence.
+
+```pycon
+>>> me = re.compile("ada", re.IGNORECASE)
+>>> commit_kind("ci@x", "github-actions[bot]", "", owner=me)
+'bot'
+>>> commit_kind("bob@x", "Bob", "Claude-Session: x", owner=me)
+'others'
+>>> commit_kind("ada@x", "Ada", "fix\n\nCo-Authored-By: Claude <noreply@anthropic.com>", owner=me)
+'agent'
+```
+
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
+
+### astern.timeledger.commits(root, \*, since, until=None, owner, exclude=('forks/', ), depth=3, timeout=60, run=<function run>)
+
+Commits by author date in `[since, until)` across the repositories under `root`.
+
+`owner` is a regex (or a pattern) matched against the author’s email and name.
+Repositories whose path relative to `root` starts with one of `exclude` are skipped.
+Each commit is `{"hash", "date", "repo", "path", "kind"}`, once per hash.
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)]
+
+### astern.timeledger.is_owner_prompt(record)
+
+A prompt a person typed: `origin.kind == "human"` (not a peer message or a notification).
+
+```pycon
+>>> is_owner_prompt({"type": "user", "origin": {"kind": "human"}, "message": {"content": "hi"}})
+True
+>>> is_owner_prompt({"type": "user", "origin": {"kind": "peer"}, "message": {"content": "hi"}})
+False
+```
+
+* **Return type:**
+  [`bool`](https://docs.python.org/3/builtins/functions.html#bool)
+
+### astern.timeledger.merge(\*found)
+
+Several [`activity()`](_autosummary/astern.timeledger.html.md#astern.timeledger.activity) results (one per machine, e.g. run over ssh) as one.
+
+Prompts seen twice (same session and time) are kept once.
+
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
+
+### astern.timeledger.prefix_bucket(rules, , root, root_bucket='unmapped')
+
+A bucket map from `(prefix, bucket)` rules, prefixes relative to `root`; first match wins.
+
+A cwd outside `root` (or none) maps to `None`; `root` itself to `root_bucket`; a
+cwd inside it that no rule matches to [`UNMAPPED`](_autosummary/astern.timeledger.html.md#astern.timeledger.UNMAPPED). Put longer prefixes first.
+A rule matches whole path parts: `t/ast` does not match `t/astern`.
+
+```pycon
+>>> b = prefix_bucket([["a/b", "B"]], root="/r", root_bucket="lookout")
+>>> b("/r"), b("/r/a/b/c"), b("/r/a/bc"), b(None)
+('lookout', 'B', 'unmapped', None)
+```
+
+* **Return type:**
+  [`Callable`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Callable)[[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str) | [`None`](https://docs.python.org/3/builtins/constants.html#None)], [`str`](https://docs.python.org/3/builtins/stdtypes.html#str) | [`None`](https://docs.python.org/3/builtins/constants.html#None)]
+
+### astern.timeledger.project_bucket(cwd)
+
+The default bucket: the cwd’s own folder name (one bucket per project folder).
+
+```pycon
+>>> project_bucket("/home/me/proj/astern"), project_bucket(None)
+('astern', None)
+```
+
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str) | [`None`](https://docs.python.org/3/builtins/constants.html#None)
+
+### astern.timeledger.rollup(found, found_commits=(), \*, bucket=<function project_bucket>, windows=(2, 5, 10), weeks=None)
+
+One row per bucket from [`activity()`](_autosummary/astern.timeledger.html.md#astern.timeledger.activity)’s result (`found`, or several merged with
+[`merge()`](_autosummary/astern.timeledger.html.md#astern.timeledger.merge)) and [`commits()`](_autosummary/astern.timeledger.html.md#astern.timeledger.commits).
+
+`weeks` divides the per-week columns (default: the window’s length, from `since` to
+`until` or the last event).
+
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
+
+
 # _autosummary/astern.tools.html.md
 
 # astern.tools
@@ -1738,21 +1924,22 @@ The one-command test of v1: `astern sync && astern report friction`.
 
 ### Functions
 
-| [`entire_enable`](_autosummary/astern.tools.html.md#astern.tools.entire_enable)([repo, push_sessions, ...])          | Enable the Entire CLI's Claude Code hooks in `repo`, safe by default.                 |
-|-----------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------|
-| [`entire_status`](_autosummary/astern.tools.html.md#astern.tools.entire_status)([repo])                              | Is Entire installed and enabled in `repo`, and is it safe? Read-only.                 |
-| [`estimate`](_autosummary/astern.tools.html.md#astern.tools.estimate)(\*[, store, lens, model, home])           | Fit the cost model on what has been judged, then price what has not.                  |
-| [`grep`](_autosummary/astern.tools.html.md#astern.tools.grep)(pattern, \*[, home, project, ...])            | Regex search over the raw transcripts of every home -- no sync, no index.             |
-| [`index`](_autosummary/astern.tools.html.md#astern.tools.index)([grain, store, embedder, refresh])           | Index the synced store into `ir` corpora, so `recall` can search it.                  |
-| [`install_skills`](_autosummary/astern.tools.html.md#astern.tools.install_skills)(\*[, target, only, force, dry_run]) | Link the skills astern ships into an agent host (default `~/.claude`).                |
-| [`judge`](_autosummary/astern.tools.html.md#astern.tools.judge)([lens, session_id, max_sessions, ...])       | Run an LLM lens over the synced sessions, newest first, under the ledger.             |
-| [`lenses`](_autosummary/astern.tools.html.md#astern.tools.lenses)()                                           | The registered lenses: name, kind (H = heuristic, L = LLM-judged), version, one line. |
-| [`recall`](_autosummary/astern.tools.html.md#astern.tools.recall)(query, \*[, grains, project, ...])          | What past sessions already thought, tried and decided about `query`.                  |
-| [`report`](_autosummary/astern.tools.html.md#astern.tools.report)(lens, \*[, store, project, ...])            | Cross-session report for one lens, over what has already been synced.                 |
-| [`sessions`](_autosummary/astern.tools.html.md#astern.tools.sessions)(\*[, store, project, limit])              | List synced sessions, newest first, with title, project, turns, and lens coverage.    |
-| [`show`](_autosummary/astern.tools.html.md#astern.tools.show)(session_id, \*[, store, turns])               | One session: its meta, ledger entry, and the last `turns` turns (prompt + summary).   |
-| [`sync`](_autosummary/astern.tools.html.md#astern.tools.sync)([home, since_days, projects, ...])            | Read new or changed transcripts into the store and run the heuristic lenses.          |
-| [`why`](_autosummary/astern.tools.html.md#astern.tools.why)(target, \*[, line, commit, store, repo, ...])  | Why does this line exist? — the commit, the session, and the turn that wrote it.      |
+| [`entire_enable`](_autosummary/astern.tools.html.md#astern.tools.entire_enable)([repo, push_sessions, ...])          | Enable the Entire CLI's Claude Code hooks in `repo`, safe by default.                   |
+|-----------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|
+| [`entire_status`](_autosummary/astern.tools.html.md#astern.tools.entire_status)([repo])                              | Is Entire installed and enabled in `repo`, and is it safe? Read-only.                   |
+| [`estimate`](_autosummary/astern.tools.html.md#astern.tools.estimate)(\*[, store, lens, model, home])           | Fit the cost model on what has been judged, then price what has not.                    |
+| [`grep`](_autosummary/astern.tools.html.md#astern.tools.grep)(pattern, \*[, home, project, ...])            | Regex search over the raw transcripts of every home -- no sync, no index.               |
+| [`index`](_autosummary/astern.tools.html.md#astern.tools.index)([grain, store, embedder, refresh])           | Index the synced store into `ir` corpora, so `recall` can search it.                    |
+| [`install_skills`](_autosummary/astern.tools.html.md#astern.tools.install_skills)(\*[, target, only, force, dry_run]) | Link the skills astern ships into an agent host (default `~/.claude`).                  |
+| [`judge`](_autosummary/astern.tools.html.md#astern.tools.judge)([lens, session_id, max_sessions, ...])       | Run an LLM lens over the synced sessions, newest first, under the ledger.               |
+| [`lenses`](_autosummary/astern.tools.html.md#astern.tools.lenses)()                                           | The registered lenses: name, kind (H = heuristic, L = LLM-judged), version, one line.   |
+| [`recall`](_autosummary/astern.tools.html.md#astern.tools.recall)(query, \*[, grains, project, ...])          | What past sessions already thought, tried and decided about `query`.                    |
+| [`report`](_autosummary/astern.tools.html.md#astern.tools.report)(lens, \*[, store, project, ...])            | Cross-session report for one lens, over what has already been synced.                   |
+| [`sessions`](_autosummary/astern.tools.html.md#astern.tools.sessions)(\*[, store, project, limit])              | List synced sessions, newest first, with title, project, turns, and lens coverage.      |
+| [`show`](_autosummary/astern.tools.html.md#astern.tools.show)(session_id, \*[, store, turns])               | One session: its meta, ledger entry, and the last `turns` turns (prompt + summary).     |
+| [`sync`](_autosummary/astern.tools.html.md#astern.tools.sync)([home, since_days, projects, ...])            | Read new or changed transcripts into the store and run the heuristic lenses.            |
+| [`time_ledger`](_autosummary/astern.tools.html.md#astern.tools.time_ledger)(since, \*[, until, home, root, ...])   | Where the owner's time and the agents' time went, per bucket, since `since` (ISO date). |
+| [`why`](_autosummary/astern.tools.html.md#astern.tools.why)(target, \*[, line, commit, store, repo, ...])  | Why does this line exist? — the commit, the session, and the turn that wrote it.        |
 
 ### astern.tools.entire_enable(repo='.', , push_sessions=False, telemetry=False, dry_run=False)
 
@@ -1926,6 +2113,20 @@ machine’s corpus (290 top-level sessions, 4547 nested transcripts, 2.1 GB of
 JSONL) that is 50.7 s and a 330 MB store — 442 MB on disk, because 36,000 small
 JSON files round up hard — against 7.6 s and 87 MB for sessions alone. Too big to
 impose on every `sync`, so [`why()`](_autosummary/astern.tools.html.md#astern.tools.why) says when it needs it instead.
+
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
+
+### astern.tools.time_ledger(since, , until=None, home=None, root=None, buckets=None, owner=None, idle=300, windows='2,5,10', with_commits=True)
+
+Where the owner’s time and the agents’ time went, per bucket, since `since` (ISO date).
+
+`home`: the transcripts’ home(s) (`all` for every account and mirrored machine).
+`root`: the projects folder; repositories under it give the commits, and `buckets`
+prefixes are relative to it. `buckets`: a JSON file `{"rules": [[prefix, bucket], ...]}`
+(first match wins); without one, each project folder is its own bucket. `owner`: a regex
+for the owner’s commit identity (default: this machine’s git `user.name` and
+`user.email`). `windows`: owner-time caps in minutes (see [`astern.timeledger`](_autosummary/astern.timeledger.html.md#module-astern.timeledger)).
 
 * **Return type:**
   [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
@@ -2246,18 +2447,16 @@ Size and coverage of a rendered view — the cost model’s cheap regressor.
 
 # About this build
 
-This documentation was built on **2026-11-21 22:38 UTC** from commit <a href="https://github.com/addaix/astern/commit/342010b10b58099efc5b50b61a9bf6f5b6776e6a"><code>342010b</code></a> on branch <code>main</code>, for **astern 0.0.12** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-22 14:52 UTC** from commit <a href="https://github.com/addaix/astern/commit/64d8fbbb4810caacdc151dd119a7f738c140ddda"><code>64d8fbb</code></a> on branch <code>main</code>, for **astern 0.0.13** (from <code>pyproject.toml</code>).
 
-#### WARNING
-The documentation and the package may be misaligned:
-
-- The documented version (0.0.12) is behind the latest release on PyPI (0.0.13): `pip install astern` gives newer code than these docs describe.
+#### NOTE
+Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
 
 ## Source
 
 |                     |                                                                                                                                                      |
 |---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/addaix/astern/commit/342010b10b58099efc5b50b61a9bf6f5b6776e6a"><code>342010b10b58099efc5b50b61a9bf6f5b6776e6a</code></a> |
+| Commit              | <a href="https://github.com/addaix/astern/commit/64d8fbbb4810caacdc151dd119a7f738c140ddda"><code>64d8fbbb4810caacdc151dd119a7f738c140ddda</code></a> |
 | Branch              | <code>main</code>                                                                                                                                    |
 | Tags at this commit | none                                                                                                                                                 |
 | Working tree        | clean                                                                                                                                                |
@@ -2268,9 +2467,9 @@ The documentation and the package may be misaligned:
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>addaix/astern</code>                                                                 |
-| Run          | <a href="https://github.com/addaix/astern/actions/runs/44957619846">44957619846</a>        |
+| Run          | <a href="https://github.com/addaix/astern/actions/runs/45035048082">45035048082</a>        |
 | Ref          | <code>refs/heads/main</code>                                                               |
-| Event commit | <code>342010b10b58099efc5b50b61a9bf6f5b6776e6a</code> (in the history of the built commit) |
+| Event commit | <code>64d8fbbb4810caacdc151dd119a7f738c140ddda</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -2295,13 +2494,13 @@ The documentation and the package may be misaligned:
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/astern/0.0.13/">0.0.13</a>, newer than the documented version (0.0.12).
+Latest release: <a href="https://pypi.org/project/astern/0.0.13/">0.0.13</a>, the same as the documented version.
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/addaix/astern && cd astern
-git checkout 342010b10b58099efc5b50b61a9bf6f5b6776e6a
+git checkout 64d8fbbb4810caacdc151dd119a7f738c140ddda
 pip install "epythet==0.2.23"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```

@@ -1,32 +1,32 @@
 {
   "schema_version": 1,
-  "built_at": "2026-11-21T22:38:00Z",
+  "built_at": "2026-11-22T14:52:35Z",
   "package": {
     "name": "astern",
-    "version": "0.0.12",
+    "version": "0.0.13",
     "display_name": "astern",
     "source": "pyproject.toml"
   },
   "git": {
     "available": true,
-    "commit": "342010b10b58099efc5b50b61a9bf6f5b6776e6a",
-    "short_commit": "342010b",
+    "commit": "64d8fbbb4810caacdc151dd119a7f738c140ddda",
+    "short_commit": "64d8fbb",
     "branch": "main",
     "tags": [],
     "dirty": false,
     "remote_url": "https://github.com/addaix/astern",
-    "commit_url": "https://github.com/addaix/astern/commit/342010b10b58099efc5b50b61a9bf6f5b6776e6a",
+    "commit_url": "https://github.com/addaix/astern/commit/64d8fbbb4810caacdc151dd119a7f738c140ddda",
     "error": null
   },
   "ci": {
     "provider": "github",
     "repository": "addaix/astern",
-    "sha": "342010b10b58099efc5b50b61a9bf6f5b6776e6a",
+    "sha": "64d8fbbb4810caacdc151dd119a7f738c140ddda",
     "sha_in_history": true,
     "ref": "refs/heads/main",
     "ref_name": "main",
-    "run_id": "44957619846",
-    "run_url": "https://github.com/addaix/astern/actions/runs/44957619846",
+    "run_id": "45035048082",
+    "run_url": "https://github.com/addaix/astern/actions/runs/45035048082",
     "server_url": "https://github.com"
   },
   "tools": {
@@ -55,21 +55,19 @@
     "docs_dir": "docsrc"
   },
   "site": {
-    "modules_documented": 16,
-    "objects_documented": 116
+    "modules_documented": 17,
+    "objects_documented": 129
   },
   "pypi": {
     "checked": true,
     "latest": "0.0.13",
-    "relation": "behind",
+    "relation": "same",
     "error": null
   },
-  "reproduce": "git clone https://github.com/addaix/astern && cd astern\ngit checkout 342010b10b58099efc5b50b61a9bf6f5b6776e6a\npip install \"epythet==0.2.23\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
+  "reproduce": "git clone https://github.com/addaix/astern && cd astern\ngit checkout 64d8fbbb4810caacdc151dd119a7f738c140ddda\npip install \"epythet==0.2.23\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
   "warnings": [],
   "alignment": {
-    "aligned": false,
-    "notes": [
-      "The documented version (0.0.12) is behind the latest release on PyPI (0.0.13): `pip install astern` gives newer code than these docs describe."
-    ]
+    "aligned": true,
+    "notes": []
   }
 }

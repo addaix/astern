@@ -36,7 +36,7 @@
 <link href="../search.html" rel="search" title="Search"/>
 <link href="../genindex.html" rel="index" title="Index"/>
 <link href="astern.turns.html" rel="next" title="astern.turns"/>
-<link href="astern.store.html" rel="prev" title="astern.store"/>
+<link href="astern.timeledger.html" rel="prev" title="astern.timeledger"/>
 </head>
 <body :class="{ 'overflow-hidden': showSidebar }" class="min-h-screen font-sans antialiased bg-background text-foreground" x-data="{ showSidebar: false, showScrollTop: false }">
 <div @click.self="showSidebar = false" class="fixed inset-0 z-50 overflow-hidden bg-background/80 backdrop-blur-sm md:hidden" x-cloak="" x-show="showSidebar"></div><div class="relative flex flex-col min-h-screen" id="page"><a class="absolute top-0 left-0 z-[100] block bg-background p-4 text-xl transition -translate-x-full opacity-0 focus:translate-x-0 focus:opacity-100" href="#content">
@@ -96,6 +96,7 @@
 <li class="toctree-l3"><a class="reference internal" href="astern.skills.html">astern.skills</a></li>
 <li class="toctree-l3"><a class="reference internal" href="astern.sources.html">astern.sources</a></li>
 <li class="toctree-l3"><a class="reference internal" href="astern.store.html">astern.store</a></li>
+<li class="toctree-l3"><a class="reference internal" href="astern.timeledger.html">astern.timeledger</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">astern.tools</a></li>
 <li class="toctree-l3"><a class="reference internal" href="astern.turns.html">astern.turns</a></li>
 <li class="toctree-l3"><a class="reference internal" href="astern.views.html">astern.views</a></li>
@@ -178,7 +179,10 @@ called it.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#astern.tools.sync" title="astern.tools.sync"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sync</span></code></a>([home, since_days, projects, ...])</p></td>
 <td><p>Read new or changed transcripts into the store and run the heuristic lenses.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#astern.tools.why" title="astern.tools.why"><code class="xref py py-obj docutils literal notranslate"><span class="pre">why</span></code></a>(target, *[, line, commit, store, repo, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#astern.tools.time_ledger" title="astern.tools.time_ledger"><code class="xref py py-obj docutils literal notranslate"><span class="pre">time_ledger</span></code></a>(since, *[, until, home, root, ...])</p></td>
+<td><p>Where the owner's time and the agents' time went, per bucket, since <code class="docutils literal notranslate"><span class="pre">since</span></code> (ISO date).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#astern.tools.why" title="astern.tools.why"><code class="xref py py-obj docutils literal notranslate"><span class="pre">why</span></code></a>(target, *[, line, commit, store, repo, ...])</p></td>
 <td><p>Why does this line exist? — the commit, the session, and the turn that wrote it.</p></td>
 </tr>
 </tbody>
@@ -382,6 +386,22 @@ impose on every <code class="docutils literal notranslate"><span class="pre">syn
 </dl>
 </dd></dl>
 <dl class="py function">
+<dt class="sig sig-object py" id="astern.tools.time_ledger">
+<span class="sig-prename descclassname"><span class="pre">astern.tools.</span></span><span class="sig-name descname"><span class="pre">time_ledger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">since</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">until</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">home</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buckets</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">owner</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">300</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">windows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'2,5,10'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_commits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/astern/tools.html#time_ledger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a @click.prevent="window.navigator.clipboard.writeText($el.href); $el.setAttribute('data-tooltip', 'Copied!'); setTimeout(() =&gt; $el.setAttribute('data-tooltip', 'Copy link to this element'), 2000)" aria-label="Copy link to this element" class="headerlink" data-tooltip="Copy link to this element" href="#astern.tools.time_ledger" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#astern.tools.time_ledger'">¶</a></dt>
+<dd><p>Where the owner’s time and the agents’ time went, per bucket, since <code class="docutils literal notranslate"><span class="pre">since</span></code> (ISO date).</p>
+<p><code class="docutils literal notranslate"><span class="pre">home</span></code>: the transcripts’ home(s) (<code class="docutils literal notranslate"><span class="pre">all</span></code> for every account and mirrored machine).
+<code class="docutils literal notranslate"><span class="pre">root</span></code>: the projects folder; repositories under it give the commits, and <code class="docutils literal notranslate"><span class="pre">buckets</span></code>
+prefixes are relative to it. <code class="docutils literal notranslate"><span class="pre">buckets</span></code>: a JSON file <code class="docutils literal notranslate"><span class="pre">{"rules":</span> <span class="pre">[[prefix,</span> <span class="pre">bucket],</span> <span class="pre">...]}</span></code>
+(first match wins); without one, each project folder is its own bucket. <code class="docutils literal notranslate"><span class="pre">owner</span></code>: a regex
+for the owner’s commit identity (default: this machine’s git <code class="docutils literal notranslate"><span class="pre">user.name</span></code> and
+<code class="docutils literal notranslate"><span class="pre">user.email</span></code>). <code class="docutils literal notranslate"><span class="pre">windows</span></code>: owner-time caps in minutes (see <a class="reference internal" href="astern.timeledger.html#module-astern.timeledger" title="astern.timeledger"><code class="xref py py-mod docutils literal notranslate"><span class="pre">astern.timeledger</span></code></a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" rel="nofollow noopener" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code><svg fill="currentColor" height="1em" stroke="none" viewbox="0 96 960 960" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M188 868q-11-11-11-28t11-28l436-436H400q-17 0-28.5-11.5T360 336q0-17 11.5-28.5T400 296h320q17 0 28.5 11.5T760 336v320q0 17-11.5 28.5T720 696q-17 0-28.5-11.5T680 656V432L244 868q-11 11-28 11t-28-11Z"></path></svg></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
 <dt class="sig sig-object py" id="astern.tools.why">
 <span class="sig-prename descclassname"><span class="pre">astern.tools.</span></span><span class="sig-name descname"><span class="pre">why</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">commit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_days</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">14.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_hits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entire</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/astern/tools.html#why"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a @click.prevent="window.navigator.clipboard.writeText($el.href); $el.setAttribute('data-tooltip', 'Copied!'); setTimeout(() =&gt; $el.setAttribute('data-tooltip', 'Copy link to this element'), 2000)" aria-label="Copy link to this element" class="headerlink" data-tooltip="Copy link to this element" href="#astern.tools.why" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#astern.tools.why'">¶</a></dt>
 <dd><p>Why does this line exist? — the commit, the session, and the turn that wrote it.</p>
@@ -425,6 +445,7 @@ either way, because Entire only speaks for work done after it was enabled.</p>
 <li><a :data-current="activeSection === '#astern.tools.sessions'" class="reference internal" href="#astern.tools.sessions"><code class="docutils literal notranslate"><span class="pre">sessions()</span></code></a></li>
 <li><a :data-current="activeSection === '#astern.tools.show'" class="reference internal" href="#astern.tools.show"><code class="docutils literal notranslate"><span class="pre">show()</span></code></a></li>
 <li><a :data-current="activeSection === '#astern.tools.sync'" class="reference internal" href="#astern.tools.sync"><code class="docutils literal notranslate"><span class="pre">sync()</span></code></a></li>
+<li><a :data-current="activeSection === '#astern.tools.time_ledger'" class="reference internal" href="#astern.tools.time_ledger"><code class="docutils literal notranslate"><span class="pre">time_ledger()</span></code></a></li>
 <li><a :data-current="activeSection === '#astern.tools.why'" class="reference internal" href="#astern.tools.why"><code class="docutils literal notranslate"><span class="pre">why()</span></code></a></li>
 </ul>
 </div>
@@ -439,7 +460,7 @@ either way, because Entire only speaks for work done after it was enabled.</p>
 </div>
 </footer>
 </div>
-<script src="../_static/documentation_options.js?v=3bbcec59"></script>
+<script src="../_static/documentation_options.js?v=9fc46840"></script>
 <script src="../_static/doctools.js?v=fd6eb6e6"></script>
 <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
 <script src="../_static/clipboard.min.js?v=a7894cd8"></script>

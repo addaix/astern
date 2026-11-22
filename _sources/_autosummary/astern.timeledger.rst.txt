@@ -1,0 +1,28 @@
+astern.timeledger
+=================
+
+.. automodule:: astern.timeledger
+
+   
+   .. rubric:: Module Attributes
+
+   .. autosummary::
+   
+      DISPATCH_MARKERS
+      UNMAPPED
+      OTHER
+      DFLT_EXCLUDE
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      activity
+      commit_kind
+      commits
+      is_owner_prompt
+      merge
+      prefix_bucket
+      project_bucket
+      rollup
+   

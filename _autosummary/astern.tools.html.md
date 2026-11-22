@@ -11,21 +11,22 @@ The one-command test of v1: `astern sync && astern report friction`.
 
 ### Functions
 
-| [`entire_enable`](#astern.tools.entire_enable)([repo, push_sessions, ...])          | Enable the Entire CLI's Claude Code hooks in `repo`, safe by default.                 |
-|-----------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------|
-| [`entire_status`](#astern.tools.entire_status)([repo])                              | Is Entire installed and enabled in `repo`, and is it safe? Read-only.                 |
-| [`estimate`](#astern.tools.estimate)(\*[, store, lens, model, home])           | Fit the cost model on what has been judged, then price what has not.                  |
-| [`grep`](#astern.tools.grep)(pattern, \*[, home, project, ...])            | Regex search over the raw transcripts of every home -- no sync, no index.             |
-| [`index`](#astern.tools.index)([grain, store, embedder, refresh])           | Index the synced store into `ir` corpora, so `recall` can search it.                  |
-| [`install_skills`](#astern.tools.install_skills)(\*[, target, only, force, dry_run]) | Link the skills astern ships into an agent host (default `~/.claude`).                |
-| [`judge`](#astern.tools.judge)([lens, session_id, max_sessions, ...])       | Run an LLM lens over the synced sessions, newest first, under the ledger.             |
-| [`lenses`](#astern.tools.lenses)()                                           | The registered lenses: name, kind (H = heuristic, L = LLM-judged), version, one line. |
-| [`recall`](#astern.tools.recall)(query, \*[, grains, project, ...])          | What past sessions already thought, tried and decided about `query`.                  |
-| [`report`](#astern.tools.report)(lens, \*[, store, project, ...])            | Cross-session report for one lens, over what has already been synced.                 |
-| [`sessions`](#astern.tools.sessions)(\*[, store, project, limit])              | List synced sessions, newest first, with title, project, turns, and lens coverage.    |
-| [`show`](#astern.tools.show)(session_id, \*[, store, turns])               | One session: its meta, ledger entry, and the last `turns` turns (prompt + summary).   |
-| [`sync`](#astern.tools.sync)([home, since_days, projects, ...])            | Read new or changed transcripts into the store and run the heuristic lenses.          |
-| [`why`](#astern.tools.why)(target, \*[, line, commit, store, repo, ...])  | Why does this line exist? — the commit, the session, and the turn that wrote it.      |
+| [`entire_enable`](#astern.tools.entire_enable)([repo, push_sessions, ...])          | Enable the Entire CLI's Claude Code hooks in `repo`, safe by default.                   |
+|-----------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|
+| [`entire_status`](#astern.tools.entire_status)([repo])                              | Is Entire installed and enabled in `repo`, and is it safe? Read-only.                   |
+| [`estimate`](#astern.tools.estimate)(\*[, store, lens, model, home])           | Fit the cost model on what has been judged, then price what has not.                    |
+| [`grep`](#astern.tools.grep)(pattern, \*[, home, project, ...])            | Regex search over the raw transcripts of every home -- no sync, no index.               |
+| [`index`](#astern.tools.index)([grain, store, embedder, refresh])           | Index the synced store into `ir` corpora, so `recall` can search it.                    |
+| [`install_skills`](#astern.tools.install_skills)(\*[, target, only, force, dry_run]) | Link the skills astern ships into an agent host (default `~/.claude`).                  |
+| [`judge`](#astern.tools.judge)([lens, session_id, max_sessions, ...])       | Run an LLM lens over the synced sessions, newest first, under the ledger.               |
+| [`lenses`](#astern.tools.lenses)()                                           | The registered lenses: name, kind (H = heuristic, L = LLM-judged), version, one line.   |
+| [`recall`](#astern.tools.recall)(query, \*[, grains, project, ...])          | What past sessions already thought, tried and decided about `query`.                    |
+| [`report`](#astern.tools.report)(lens, \*[, store, project, ...])            | Cross-session report for one lens, over what has already been synced.                   |
+| [`sessions`](#astern.tools.sessions)(\*[, store, project, limit])              | List synced sessions, newest first, with title, project, turns, and lens coverage.      |
+| [`show`](#astern.tools.show)(session_id, \*[, store, turns])               | One session: its meta, ledger entry, and the last `turns` turns (prompt + summary).     |
+| [`sync`](#astern.tools.sync)([home, since_days, projects, ...])            | Read new or changed transcripts into the store and run the heuristic lenses.            |
+| [`time_ledger`](#astern.tools.time_ledger)(since, \*[, until, home, root, ...])   | Where the owner's time and the agents' time went, per bucket, since `since` (ISO date). |
+| [`why`](#astern.tools.why)(target, \*[, line, commit, store, repo, ...])  | Why does this line exist? — the commit, the session, and the turn that wrote it.        |
 
 ### astern.tools.entire_enable(repo='.', , push_sessions=False, telemetry=False, dry_run=False)
 
@@ -199,6 +200,20 @@ machine’s corpus (290 top-level sessions, 4547 nested transcripts, 2.1 GB of
 JSONL) that is 50.7 s and a 330 MB store — 442 MB on disk, because 36,000 small
 JSON files round up hard — against 7.6 s and 87 MB for sessions alone. Too big to
 impose on every `sync`, so [`why()`](#astern.tools.why) says when it needs it instead.
+
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
+
+### astern.tools.time_ledger(since, , until=None, home=None, root=None, buckets=None, owner=None, idle=300, windows='2,5,10', with_commits=True)
+
+Where the owner’s time and the agents’ time went, per bucket, since `since` (ISO date).
+
+`home`: the transcripts’ home(s) (`all` for every account and mirrored machine).
+`root`: the projects folder; repositories under it give the commits, and `buckets`
+prefixes are relative to it. `buckets`: a JSON file `{"rules": [[prefix, bucket], ...]}`
+(first match wins); without one, each project folder is its own bucket. `owner`: a regex
+for the owner’s commit identity (default: this machine’s git `user.name` and
+`user.email`). `windows`: owner-time caps in minutes (see [`astern.timeledger`](astern.timeledger.html.md#module-astern.timeledger)).
 
 * **Return type:**
   [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)

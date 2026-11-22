@@ -18,6 +18,7 @@
 - [astern.skills](astern.skills.html.md): The skills astern ships, and the command that makes an agent host see them.
 - [astern.sources](astern.sources.html.md): Where the transcripts are: homes, session files, raw records.
 - [astern.store](astern.store.html.md): Where records, findings and the ledger live: one directory, several JSON stores.
+- [astern.timeledger](astern.timeledger.html.md): Time ledger: where the owner’s time and the agents’ time went, per bucket, over a window.
 - [astern.tools](astern.tools.html.md): The SSOT of what astern does: plain functions, JSON-able in, JSON-able dict out.
 - [astern.turns](astern.turns.html.md): From raw transcript records to one record per user→assistant turn, plus session meta.
 - [astern.views](astern.views.html.md): The compressed markdown a judge reads instead of a transcript.
