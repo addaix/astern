@@ -21,6 +21,7 @@ from astern import estimate as _estimate
 from astern import ledger as _ledger
 from astern import provenance as _prov
 from astern import report as _report
+from astern import timeledger as _timeledger
 from astern import views as _views
 from astern.grep import DFLT_ROLES, grep_sessions
 from astern.lenses import LENSES, load_builtin_lenses
@@ -1139,6 +1140,65 @@ def why(
 
 
 #: Per-parameter ``add_argument`` overrides for the CLI (``cw``'s ``config=`` seam).
+def _git_identity() -> str:
+    """A regex for the local git identity (``user.name`` and ``user.email``), or ``""``."""
+    import re
+    import subprocess
+
+    parts = []
+    for key in ("user.name", "user.email"):
+        try:
+            got = subprocess.run(
+                ["git", "config", "--get", key], capture_output=True, text=True, timeout=10, check=False
+            ).stdout.strip()
+        except (OSError, subprocess.TimeoutExpired):
+            got = ""
+        if got:
+            parts.append(re.escape(got))
+    return "|".join(parts)
+
+
+def time_ledger(
+    since: str,
+    *,
+    until: str | None = None,
+    home: str | None = None,
+    root: str | None = None,
+    buckets: str | None = None,
+    owner: str | None = None,
+    idle: float = _timeledger.IDLE_SECONDS,
+    windows: str = "2,5,10",
+    with_commits: bool = True,
+) -> dict:
+    """Where the owner's time and the agents' time went, per bucket, since ``since`` (ISO date).
+
+    ``home``: the transcripts' home(s) (``all`` for every account and mirrored machine).
+    ``root``: the projects folder; repositories under it give the commits, and ``buckets``
+    prefixes are relative to it. ``buckets``: a JSON file ``{"rules": [[prefix, bucket], ...]}``
+    (first match wins); without one, each project folder is its own bucket. ``owner``: a regex
+    for the owner's commit identity (default: this machine's git ``user.name`` and
+    ``user.email``). ``windows``: owner-time caps in minutes (see :mod:`astern.timeledger`).
+    """
+    import json
+
+    found = _timeledger.activity(home, since=since, until=until, idle=idle)
+    if buckets:
+        if not root:
+            raise ValueError("buckets= needs root=: its prefixes are relative to the projects folder")
+        rules = json.loads(Path(buckets).expanduser().read_text())["rules"]
+        bucket = _timeledger.prefix_bucket(rules, root=os.path.expanduser(root))
+    else:
+        bucket = _timeledger.project_bucket
+    found_commits: list[dict] = []
+    if with_commits and root:
+        who = owner or _git_identity()
+        if not who:
+            raise ValueError("no owner identity for commits: pass owner= or set git's user.name")
+        found_commits = _timeledger.commits(root, since=since, until=until, owner=who)
+    caps = tuple(float(w) if "." in w else int(w) for w in str(windows).split(",") if w.strip())
+    return _timeledger.rollup(found, found_commits, bucket=bucket, windows=caps)
+
+
 _dispatch_config: dict = {}
 
 _dispatch_funcs = [
@@ -1148,6 +1208,7 @@ _dispatch_funcs = [
     show,
     lenses,
     report,
+    time_ledger,
     judge,
     estimate,
     index,
