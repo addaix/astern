@@ -1148,7 +1148,9 @@ def _git_identity() -> str:
     parts = []
     for key in ("user.name", "user.email"):
         try:
-            got = subprocess.run(["git", "config", "--get", key], capture_output=True, text=True, timeout=10).stdout.strip()
+            got = subprocess.run(
+                ["git", "config", "--get", key], capture_output=True, text=True, timeout=10, check=False
+            ).stdout.strip()
         except (OSError, subprocess.TimeoutExpired):
             got = ""
         if got:
@@ -1184,7 +1186,7 @@ def time_ledger(
         if not root:
             raise ValueError("buckets= needs root=: its prefixes are relative to the projects folder")
         rules = json.loads(Path(buckets).expanduser().read_text())["rules"]
-        bucket = _timeledger.prefix_bucket(rules, root=Path(root).expanduser())
+        bucket = _timeledger.prefix_bucket(rules, root=os.path.expanduser(root))
     else:
         bucket = _timeledger.project_bucket
     found_commits: list[dict] = []

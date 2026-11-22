@@ -39,7 +39,7 @@ import subprocess
 from collections import Counter, defaultdict
 from collections.abc import Callable, Iterable, Mapping, Sequence
 from datetime import datetime, timezone
-from pathlib import Path
+from pathlib import Path, PurePath
 
 from astern.sources import iter_session_files, load_records
 
@@ -52,9 +52,9 @@ DISPATCH_MARKERS = ("Reply in at most five lines",)
 AGENT_TRAILER = re.compile(
     r"Claude-Session:|claude\.ai/code/session_|Co-Authored-By:\s*Claude|"
     r"Generated with \[Claude Code\]|noreply@anthropic\.com",
-    re.I,
+    re.IGNORECASE,
 )
-BOT_AUTHOR = re.compile(r"\[bot\]|github-actions", re.I)
+BOT_AUTHOR = re.compile(r"\[bot\]|github-actions", re.IGNORECASE)
 #: The bucket of a cwd that is inside the root but matches no rule.
 UNMAPPED = "unmapped"
 #: The bucket of time no rule and no previous bucket claims.
@@ -98,13 +98,13 @@ def prefix_bucket(
     >>> b("/r"), b("/r/a/b/c"), b("/r/a/bc"), b(None)
     ('lookout', 'B', 'unmapped', None)
     """
-    base = str(root).rstrip("/") + "/"
+    base = PurePath(root).as_posix().rstrip("/") + "/"
     pairs = [(str(p).strip("/") + "/", str(b)) for p, b in rules if str(p).strip("/")]
 
     def bucket(cwd: str | None) -> str | None:
         if not cwd:
             return None
-        path = str(cwd).rstrip("/") + "/"
+        path = PurePath(str(cwd)).as_posix().rstrip("/") + "/"
         if path == base:
             return root_bucket
         if not path.startswith(base):
@@ -239,7 +239,7 @@ def _repos(root: Path, *, depth: int) -> Iterable[Path]:
 def commit_kind(email: str, name: str, body: str, *, owner: re.Pattern) -> str:
     """``bot``, ``others``, ``agent`` or ``unmarked``, in that order of precedence.
 
-    >>> me = re.compile("ada", re.I)
+    >>> me = re.compile("ada", re.IGNORECASE)
     >>> commit_kind("ci@x", "github-actions[bot]", "", owner=me)
     'bot'
     >>> commit_kind("bob@x", "Bob", "Claude-Session: x", owner=me)
@@ -272,7 +272,7 @@ def commits(
     Each commit is ``{"hash", "date", "repo", "path", "kind"}``, once per hash.
     """
     root = Path(root).expanduser()
-    owner = re.compile(owner, re.I) if isinstance(owner, str) else owner
+    owner = re.compile(owner, re.IGNORECASE) if isinstance(owner, str) else owner
     out: dict[str, dict] = {}
     for repo in _repos(root, depth=depth):
         rel = repo.relative_to(root).as_posix()
@@ -281,7 +281,7 @@ def commits(
         try:
             done = run(
                 ["git", "-C", str(repo), "log", "--all", f"--since={since}", f"--format={_GIT_FORMAT}"],
-                capture_output=True, text=True, timeout=timeout,
+                capture_output=True, text=True, timeout=timeout, check=False,
             )  # fmt: skip
         except subprocess.TimeoutExpired:
             continue
