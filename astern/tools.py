@@ -1149,7 +1149,11 @@ def _git_identity() -> str:
     for key in ("user.name", "user.email"):
         try:
             got = subprocess.run(
-                ["git", "config", "--get", key], capture_output=True, text=True, timeout=10, check=False
+                ["git", "config", "--get", key],
+                capture_output=True,
+                text=True,
+                timeout=10,
+                check=False,
             ).stdout.strip()
         except (OSError, subprocess.TimeoutExpired):
             got = ""
@@ -1184,7 +1188,9 @@ def time_ledger(
     found = _timeledger.activity(home, since=since, until=until, idle=idle)
     if buckets:
         if not root:
-            raise ValueError("buckets= needs root=: its prefixes are relative to the projects folder")
+            raise ValueError(
+                "buckets= needs root=: its prefixes are relative to the projects folder"
+            )
         rules = json.loads(Path(buckets).expanduser().read_text())["rules"]
         bucket = _timeledger.prefix_bucket(rules, root=os.path.expanduser(root))
     else:
@@ -1193,9 +1199,13 @@ def time_ledger(
     if with_commits and root:
         who = owner or _git_identity()
         if not who:
-            raise ValueError("no owner identity for commits: pass owner= or set git's user.name")
+            raise ValueError(
+                "no owner identity for commits: pass owner= or set git's user.name"
+            )
         found_commits = _timeledger.commits(root, since=since, until=until, owner=who)
-    caps = tuple(float(w) if "." in w else int(w) for w in str(windows).split(",") if w.strip())
+    caps = tuple(
+        float(w) if "." in w else int(w) for w in str(windows).split(",") if w.strip()
+    )
     return _timeledger.rollup(found, found_commits, bucket=bucket, windows=caps)
 
 

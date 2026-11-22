@@ -29,11 +29,25 @@ def _write(home: Path, slug: str, sid: str, records) -> None:
 def _home(tmp_path):
     home = tmp_path / ".claude"
     s1 = [
-        _ev(0, "2026-11-10T10:00:00Z", "/p/t/astern", kind="user", origin="human", text="fix the parser"),
+        _ev(
+            0,
+            "2026-11-10T10:00:00Z",
+            "/p/t/astern",
+            kind="user",
+            origin="human",
+            text="fix the parser",
+        ),
         _ev(1, "2026-11-10T10:01:00Z", "/p/t/astern"),
         _ev(2, "2026-11-10T10:03:00Z", "/tmp/scratch"),  # outside the root: astern's time
         _ev(3, "2026-11-10T11:00:00Z", "/p/t/astern"),  # an hour later: idle, not counted
-        _ev(4, "2026-11-10T11:00:30Z", "/p/t/astern", kind="user", origin="peer", text="status?"),
+        _ev(
+            4,
+            "2026-11-10T11:00:30Z",
+            "/p/t/astern",
+            kind="user",
+            origin="peer",
+            text="status?",
+        ),
     ]
     s2 = [
         _ev(0, "2026-11-10T10:02:00Z", "/p/i/dol", kind="user", origin="human", text="go", sid="s2"),
@@ -54,21 +68,39 @@ def test_activity_dedupes_caps_idle_and_marks_owner_prompts(tmp_path):
     assert by["s1"]["active"] == [["/p/t/astern", "2026-11-10", 60.0], ["/tmp/scratch", "2026-11-10", 120.0],
                                   ["/p/t/astern", "2026-11-10", 30.0]]  # fmt: skip
     owner = [(p["session"], p["dispatched"]) for p in found["prompts"]]
-    assert owner == [("s1", False), ("s2", False), ("s2", True)]  # the peer message is not the owner's
+    assert owner == [
+        ("s1", False),
+        ("s2", False),
+        ("s2", True),
+    ]  # the peer message is not the owner's
 
 
 def test_rollup_buckets_by_the_callers_map_and_never_double_counts_the_owner(tmp_path):
     found = tl.activity(_home(tmp_path), since="2026-11-10")
     bucket = tl.prefix_bucket([["t/astern", "astern"], ["i/", "i2mint"]], root=ROOT)
-    made = [{"hash": "h1", "date": "2026-11-10T09:00:00Z", "repo": "t/astern", "path": "/p/t/astern", "kind": "agent"}]
+    made = [
+        {
+            "hash": "h1",
+            "date": "2026-11-10T09:00:00Z",
+            "repo": "t/astern",
+            "path": "/p/t/astern",
+            "kind": "agent",
+        }
+    ]
     out = tl.rollup(found, made, bucket=bucket, windows=(2, 5), weeks=1)
     rows = {r["bucket"]: r for r in out["rows"]}
-    assert rows["astern"]["agent_hours"] == round(210 / 3600, 2)  # the scratchpad counts for astern
-    assert rows["i2mint"]["dispatched_briefs"] == 1 and rows["i2mint"]["owner_prompts"] == 1
+    assert rows["astern"]["agent_hours"] == round(
+        210 / 3600, 2
+    )  # the scratchpad counts for astern
+    assert (
+        rows["i2mint"]["dispatched_briefs"] == 1 and rows["i2mint"]["owner_prompts"] == 1
+    )
     # the owner typed at 10:00 (astern) and 10:02 (dol): the second is credited 2 minutes, not 5
     assert rows["i2mint"]["owner_hours"] == {"2": round(2 / 60, 2), "5": round(2 / 60, 2)}
     assert rows["astern"]["owner_hours"]["5"] == round(5 / 60, 2)
-    assert rows["astern"]["commits"] == {"agent": 1} and out["totals"]["owner_prompts"] == 2
+    assert (
+        rows["astern"]["commits"] == {"agent": 1} and out["totals"]["owner_prompts"] == 2
+    )
 
 
 def test_commits_class_and_dedupe_by_hash(tmp_path):
@@ -93,6 +125,12 @@ def test_commits_class_and_dedupe_by_hash(tmp_path):
 def test_the_time_ledger_tool(tmp_path):
     rules = tmp_path / "map.json"
     rules.write_text(json.dumps({"rules": [["t/", "tools"]]}))
-    out = tools.time_ledger("2026-11-10", home=str(_home(tmp_path)), root=ROOT, buckets=str(rules), with_commits=False)
+    out = tools.time_ledger(
+        "2026-11-10",
+        home=str(_home(tmp_path)),
+        root=ROOT,
+        buckets=str(rules),
+        with_commits=False,
+    )
     assert {r["bucket"] for r in out["rows"]} == {"tools", "unmapped"}
     assert "time_ledger" in {f.__name__ for f in tools._dispatch_funcs}

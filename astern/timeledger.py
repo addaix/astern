@@ -86,7 +86,10 @@ def _day(iso: str) -> str:
 
 
 def prefix_bucket(
-    rules: Iterable[Sequence[str]], *, root: str | os.PathLike, root_bucket: str = UNMAPPED
+    rules: Iterable[Sequence[str]],
+    *,
+    root: str | os.PathLike,
+    root_bucket: str = UNMAPPED,
 ) -> Bucket:
     """A bucket map from ``(prefix, bucket)`` rules, prefixes relative to ``root``; first match wins.
 
@@ -182,7 +185,11 @@ def activity(
         events = []
         for d in load_records(sf.path):
             ts = d.get("timestamp")
-            if not isinstance(ts, str) or d.get("type") not in ("user", "assistant", "system"):
+            if not isinstance(ts, str) or d.get("type") not in (
+                "user",
+                "assistant",
+                "system",
+            ):
                 continue
             if not _in_window(ts, since, until):
                 continue
@@ -230,7 +237,9 @@ def _repos(root: Path, *, depth: int) -> Iterable[Path]:
         if level >= depth:
             continue
         try:
-            subs = sorted(p for p in d.iterdir() if p.is_dir() and not p.name.startswith("."))
+            subs = sorted(
+                p for p in d.iterdir() if p.is_dir() and not p.name.startswith(".")
+            )
         except OSError:
             continue
         stack.extend((p, level + 1) for p in reversed(subs))
@@ -347,7 +356,9 @@ def rollup(
     total_agent = sum(agent_s.values())
     total_owner = sum(owner_min[main_w].values())
     rows = []
-    for b in sorted(set(agent_s) | set(owner_n) | set(ckind), key=lambda b: (-agent_s[b], b)):
+    for b in sorted(
+        set(agent_s) | set(owner_n) | set(ckind), key=lambda b: (-agent_s[b], b)
+    ):
         rows.append({
             "bucket": b,
             "agent_hours": round(agent_s[b] / 3600, 2),
