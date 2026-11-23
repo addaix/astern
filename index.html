@@ -130,9 +130,9 @@
 </span><span id="line-5">astern<span class="w"> </span>sessions<span class="w">                    </span><span class="c1"># what's synced, newest first</span>
 </span><span id="line-6">astern<span class="w"> </span>show<span class="w"> </span>&lt;sid-prefix&gt;<span class="w">           </span><span class="c1"># one session: meta, ledger state, last turns, findings</span>
 </span><span id="line-7">astern<span class="w"> </span>why<span class="w"> </span>&lt;file&gt;:&lt;line&gt;<span class="w">           </span><span class="c1"># which session turn wrote this line (see below)</span>
-</span><span id="line-8">astern<span class="w"> </span>report<span class="w"> </span>friction<span class="w">             </span><span class="c1"># (in progress) a lens's findings as a markdown report</span>
-</span><span id="line-9">astern<span class="w"> </span>judge<span class="w">                       </span><span class="c1"># (in progress) run the LLM-judged lenses over what's synced</span>
-</span><span id="line-10">astern<span class="w"> </span>estimate<span class="w">                    </span><span class="c1"># (in progress) token/cost estimate before a judge batch runs</span>
+</span><span id="line-8">astern<span class="w"> </span>report<span class="w"> </span>friction<span class="w">             </span><span class="c1"># a lens's findings as a markdown report</span>
+</span><span id="line-9">astern<span class="w"> </span>judge<span class="w">                       </span><span class="c1"># run the LLM-judged lenses over what's synced</span>
+</span><span id="line-10">astern<span class="w"> </span>estimate<span class="w">                    </span><span class="c1"># token/cost estimate before a judge batch runs</span>
 </span><span id="line-11">
 </span><span id="line-12">pip<span class="w"> </span>install<span class="w"> </span><span class="s2">"astern[recall]"</span><span class="w">       </span><span class="c1"># + ir, for searching what past sessions already know</span>
 </span><span id="line-13">astern<span class="w"> </span>index<span class="w">                       </span><span class="c1"># index the store into ir corpora (idempotent)</span>
@@ -145,6 +145,7 @@
 <section id="what-it-extracts">
 <h2>What it extracts<a @click.prevent="window.navigator.clipboard.writeText($el.href); $el.setAttribute('data-tooltip', 'Copied!'); setTimeout(() =&gt; $el.setAttribute('data-tooltip', 'Copy link to this element'), 2000)" aria-label="Copy link to this element" class="headerlink" data-tooltip="Copy link to this element" href="#what-it-extracts" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#what-it-extracts'">¶</a></h2>
 <p>Each <strong>lens</strong> asks one question of a session and returns typed, evidence-backed findings — every finding points back at the turn it came from. Method: <strong>H</strong> = deterministic heuristic, zero tokens; <strong>L</strong> = LLM-judged, spends subscription tokens via the local <code class="docutils literal notranslate"><span class="pre">claude</span></code> CLI; <strong>H→L</strong> = a heuristic shortlist that only the survivors get judged on.</p>
+<p><strong>Registered today</strong> (<code class="docutils literal notranslate"><span class="pre">astern</span> <span class="pre">lenses</span></code> lists them):</p>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Lens</p></th>
@@ -157,36 +158,12 @@
 <td><p>The shape of a session in numbers — the cost model’s own features</p></td>
 <td><p>H</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">problems</span></code></p></td>
-<td><p>What problem was each session solving, and how was it solved?</p></td>
-<td><p>L</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">recurring</span></code></p></td>
-<td><p>Which problems recur, and would a skill or subagent pay for itself?</p></td>
-<td><p>H over L</p></td>
-</tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rewrites</span></code></p></td>
 <td><p>What one-off code keeps being rewritten?</p></td>
 <td><p>H→L</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">friction</span></code></p></td>
 <td><p>Where do agents get stuck, and what would remove the obstacle?</p></td>
-<td><p>H→L</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">jargon-in</span></code></p></td>
-<td><p>Which of my phrasings point to an established term I don’t use?</p></td>
-<td><p>L</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">jargon-out</span></code></p></td>
-<td><p>Which terms do agents use that I don’t?</p></td>
-<td><p>H→L</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">corrections</span></code></p></td>
-<td><p>What did I correct or re-affirm, and which corrections repeat?</p></td>
-<td><p>H→L</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">prompt-quality</span></code></p></td>
-<td><p>Which prompt shapes lead to clean turns, which to flailing ones?</p></td>
 <td><p>H→L</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cost</span></code></p></td>
@@ -197,21 +174,64 @@
 <td><p>What did I work on this week, and what landed?</p></td>
 <td><p>H→L</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">decisions</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">tooling</span></code></p></td>
+<td><p>Which skills/subagents/MCP tools are used, unused, or missing?</p></td>
+<td><p>H</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">hygiene</span></code></p></td>
+<td><p>Do agents read before they edit, and does that change over time?</p></td>
+<td><p>H</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">synopsis</span></code></p></td>
+<td><p>What was this session for, what went wrong, and what does it suggest building?</p></td>
+<td><p>L</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Planned</strong> (designed in the plan, not yet in the registry; <code class="docutils literal notranslate"><span class="pre">astern</span> <span class="pre">lenses</span></code> will not list them):</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Lens</p></th>
+<th class="head"><p>Question</p></th>
+<th class="head"><p>Method</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">problems</span></code></p></td>
+<td><p>What problem was each session solving, and how was it solved?</p></td>
+<td><p>L</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">recurring</span></code></p></td>
+<td><p>Which problems recur, and would a skill or subagent pay for itself?</p></td>
+<td><p>H over L</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">jargon-in</span></code></p></td>
+<td><p>Which of my phrasings point to an established term I don’t use?</p></td>
+<td><p>L</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">jargon-out</span></code></p></td>
+<td><p>Which terms do agents use that I don’t?</p></td>
+<td><p>H→L</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">corrections</span></code></p></td>
+<td><p>What did I correct or re-affirm, and which corrections repeat?</p></td>
+<td><p>H→L</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">prompt-quality</span></code></p></td>
+<td><p>Which prompt shapes lead to clean turns, which to flailing ones?</p></td>
+<td><p>H→L</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">decisions</span></code></p></td>
 <td><p>Which decisions were made, and why?</p></td>
 <td><p>L</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">claims</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">claims</span></code></p></td>
 <td><p>Where did an agent claim “done” and a later turn show otherwise?</p></td>
 <td><p>H→L</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">questions</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">questions</span></code></p></td>
 <td><p>What do agents keep asking me, and what did I answer?</p></td>
 <td><p>H→L</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">tooling</span></code></p></td>
-<td><p>Which skills/subagents/MCP tools are used, unused, or missing?</p></td>
-<td><p>H</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">memory-candidates</span></code></p></td>
 <td><p>Which restated facts should become memory, and where does memory drift?</p></td>
@@ -221,23 +241,19 @@
 <td><p>Which (prompt, outcome) pairs make a regression test for a skill?</p></td>
 <td><p>H</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">hygiene</span></code></p></td>
-<td><p>Do agents read before they edit, and does that change over time?</p></td>
-<td><p>H</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">regression</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">regression</span></code></p></td>
 <td><p>Did the harness or model change behaviour?</p></td>
 <td><p>H</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">adherence</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">adherence</span></code></p></td>
 <td><p>Which CLAUDE.md/skill rules are followed, ignored, or fought?</p></td>
 <td><p>L</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">subagents</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">subagents</span></code></p></td>
 <td><p>Which subagent / <code class="docutils literal notranslate"><span class="pre">Workflow</span></code> spawns paid for themselves?</p></td>
 <td><p>H</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">effect</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">effect</span></code></p></td>
 <td><p>Did an adopted rule, skill or function reduce the pattern it targeted?</p></td>
 <td><p>H</p></td>
 </tr>
@@ -392,7 +408,7 @@
 
 </section>
 </section>
-<p class="epythet-provenance" style="font-size:.8em;opacity:.65;margin-top:2.5em;text-align:right">built 2026-11-22 14:52 UTC from <a href="https://github.com/addaix/astern/commit/64d8fbbb4810caacdc151dd119a7f738c140ddda">64d8fbb</a> (main) · astern 0.0.13 · <a href="about-this-build.html">about this build</a></p>
+<p class="epythet-provenance" style="font-size:.8em;opacity:.65;margin-top:2.5em;text-align:right">built 2026-11-23 04:58 UTC from <a href="https://github.com/addaix/astern/commit/7fe499b37741e32558679787cfcf06a54e3f777f">7fe499b</a> (main) · astern 0.0.14 · <a href="about-this-build.html">about this build</a></p>
 </div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
 <div class="sticky top-16 -mt-10 max-h-[calc(100vh-5rem)] h-full overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
 <ul>
@@ -424,7 +440,7 @@
 </div>
 </footer>
 </div>
-<script src="_static/documentation_options.js?v=9fc46840"></script>
+<script src="_static/documentation_options.js?v=544df88d"></script>
 <script src="_static/doctools.js?v=fd6eb6e6"></script>
 <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
 <script src="_static/clipboard.min.js?v=a7894cd8"></script>

@@ -1,32 +1,32 @@
 {
   "schema_version": 1,
-  "built_at": "2026-11-22T14:52:35Z",
+  "built_at": "2026-11-23T04:58:05Z",
   "package": {
     "name": "astern",
-    "version": "0.0.13",
+    "version": "0.0.14",
     "display_name": "astern",
     "source": "pyproject.toml"
   },
   "git": {
     "available": true,
-    "commit": "64d8fbbb4810caacdc151dd119a7f738c140ddda",
-    "short_commit": "64d8fbb",
+    "commit": "7fe499b37741e32558679787cfcf06a54e3f777f",
+    "short_commit": "7fe499b",
     "branch": "main",
     "tags": [],
     "dirty": false,
     "remote_url": "https://github.com/addaix/astern",
-    "commit_url": "https://github.com/addaix/astern/commit/64d8fbbb4810caacdc151dd119a7f738c140ddda",
+    "commit_url": "https://github.com/addaix/astern/commit/7fe499b37741e32558679787cfcf06a54e3f777f",
     "error": null
   },
   "ci": {
     "provider": "github",
     "repository": "addaix/astern",
-    "sha": "64d8fbbb4810caacdc151dd119a7f738c140ddda",
+    "sha": "7fe499b37741e32558679787cfcf06a54e3f777f",
     "sha_in_history": true,
     "ref": "refs/heads/main",
     "ref_name": "main",
-    "run_id": "45035048082",
-    "run_url": "https://github.com/addaix/astern/actions/runs/45035048082",
+    "run_id": "45114778881",
+    "run_url": "https://github.com/addaix/astern/actions/runs/45114778881",
     "server_url": "https://github.com"
   },
   "tools": {
@@ -60,11 +60,11 @@
   },
   "pypi": {
     "checked": true,
-    "latest": "0.0.13",
+    "latest": "0.0.14",
     "relation": "same",
     "error": null
   },
-  "reproduce": "git clone https://github.com/addaix/astern && cd astern\ngit checkout 64d8fbbb4810caacdc151dd119a7f738c140ddda\npip install \"epythet==0.2.23\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
+  "reproduce": "git clone https://github.com/addaix/astern && cd astern\ngit checkout 7fe499b37741e32558679787cfcf06a54e3f777f\npip install \"epythet==0.2.23\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
   "warnings": [],
   "alignment": {
     "aligned": true,

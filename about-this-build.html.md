@@ -2,7 +2,7 @@
 
 # About this build
 
-This documentation was built on **2026-11-22 14:52 UTC** from commit <a href="https://github.com/addaix/astern/commit/64d8fbbb4810caacdc151dd119a7f738c140ddda"><code>64d8fbb</code></a> on branch <code>main</code>, for **astern 0.0.13** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-23 04:58 UTC** from commit <a href="https://github.com/addaix/astern/commit/7fe499b37741e32558679787cfcf06a54e3f777f"><code>7fe499b</code></a> on branch <code>main</code>, for **astern 0.0.14** (from <code>pyproject.toml</code>).
 
 #### NOTE
 Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
@@ -11,7 +11,7 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 |                     |                                                                                                                                                      |
 |---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/addaix/astern/commit/64d8fbbb4810caacdc151dd119a7f738c140ddda"><code>64d8fbbb4810caacdc151dd119a7f738c140ddda</code></a> |
+| Commit              | <a href="https://github.com/addaix/astern/commit/7fe499b37741e32558679787cfcf06a54e3f777f"><code>7fe499b37741e32558679787cfcf06a54e3f777f</code></a> |
 | Branch              | <code>main</code>                                                                                                                                    |
 | Tags at this commit | none                                                                                                                                                 |
 | Working tree        | clean                                                                                                                                                |
@@ -22,9 +22,9 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>addaix/astern</code>                                                                 |
-| Run          | <a href="https://github.com/addaix/astern/actions/runs/45035048082">45035048082</a>        |
+| Run          | <a href="https://github.com/addaix/astern/actions/runs/45114778881">45114778881</a>        |
 | Ref          | <code>refs/heads/main</code>                                                               |
-| Event commit | <code>64d8fbbb4810caacdc151dd119a7f738c140ddda</code> (in the history of the built commit) |
+| Event commit | <code>7fe499b37741e32558679787cfcf06a54e3f777f</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -49,13 +49,13 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/astern/0.0.13/">0.0.13</a>, the same as the documented version.
+Latest release: <a href="https://pypi.org/project/astern/0.0.14/">0.0.14</a>, the same as the documented version.
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/addaix/astern && cd astern
-git checkout 64d8fbbb4810caacdc151dd119a7f738c140ddda
+git checkout 7fe499b37741e32558679787cfcf06a54e3f777f
 pip install "epythet==0.2.23"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```

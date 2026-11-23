@@ -1370,78 +1370,88 @@
 </span><span id="line-1149">    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"user.name"</span><span class="p">,</span> <span class="s2">"user.email"</span><span class="p">):</span>
 </span><span id="line-1150">        <span class="k">try</span><span class="p">:</span>
 </span><span id="line-1151">            <span class="n">got</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
-</span><span id="line-1152">                <span class="p">[</span><span class="s2">"git"</span><span class="p">,</span> <span class="s2">"config"</span><span class="p">,</span> <span class="s2">"--get"</span><span class="p">,</span> <span class="n">key</span><span class="p">],</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span>
-</span><span id="line-1153">            <span class="p">)</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-</span><span id="line-1154">        <span class="k">except</span> <span class="p">(</span><span class="ne">OSError</span><span class="p">,</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">TimeoutExpired</span><span class="p">):</span>
-</span><span id="line-1155">            <span class="n">got</span> <span class="o">=</span> <span class="s2">""</span>
-</span><span id="line-1156">        <span class="k">if</span> <span class="n">got</span><span class="p">:</span>
-</span><span id="line-1157">            <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">got</span><span class="p">))</span>
-</span><span id="line-1158">    <span class="k">return</span> <span class="s2">"|"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span>
-</span><span id="line-1159">
-</span><span id="line-1160">
+</span><span id="line-1152">                <span class="p">[</span><span class="s2">"git"</span><span class="p">,</span> <span class="s2">"config"</span><span class="p">,</span> <span class="s2">"--get"</span><span class="p">,</span> <span class="n">key</span><span class="p">],</span>
+</span><span id="line-1153">                <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="line-1154">                <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="line-1155">                <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+</span><span id="line-1156">                <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="line-1157">            <span class="p">)</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span><span id="line-1158">        <span class="k">except</span> <span class="p">(</span><span class="ne">OSError</span><span class="p">,</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">TimeoutExpired</span><span class="p">):</span>
+</span><span id="line-1159">            <span class="n">got</span> <span class="o">=</span> <span class="s2">""</span>
+</span><span id="line-1160">        <span class="k">if</span> <span class="n">got</span><span class="p">:</span>
+</span><span id="line-1161">            <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">got</span><span class="p">))</span>
+</span><span id="line-1162">    <span class="k">return</span> <span class="s2">"|"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span>
+</span><span id="line-1163">
+</span><span id="line-1164">
 <div class="viewcode-block" id="time_ledger">
 <a class="viewcode-back" href="../../_autosummary/astern.tools.html#astern.time_ledger">[docs]</a>
-</span><span id="line-1161"><span class="k">def</span><span class="w"> </span><span class="nf">time_ledger</span><span class="p">(</span>
-</span><span id="line-1162">    <span class="n">since</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-</span><span id="line-1163">    <span class="o">*</span><span class="p">,</span>
-</span><span id="line-1164">    <span class="n">until</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="line-1165">    <span class="n">home</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="line-1166">    <span class="n">root</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="line-1167">    <span class="n">buckets</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="line-1168">    <span class="n">owner</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="line-1169">    <span class="n">idle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">_timeledger</span><span class="o">.</span><span class="n">IDLE_SECONDS</span><span class="p">,</span>
-</span><span id="line-1170">    <span class="n">windows</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"2,5,10"</span><span class="p">,</span>
-</span><span id="line-1171">    <span class="n">with_commits</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-</span><span id="line-1172"><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-</span><span id="line-1173"><span class="w">    </span><span class="sd">"""Where the owner's time and the agents' time went, per bucket, since ``since`` (ISO date).</span>
-</span><span id="line-1174">
-</span><span id="line-1175"><span class="sd">    ``home``: the transcripts' home(s) (``all`` for every account and mirrored machine).</span>
-</span><span id="line-1176"><span class="sd">    ``root``: the projects folder; repositories under it give the commits, and ``buckets``</span>
-</span><span id="line-1177"><span class="sd">    prefixes are relative to it. ``buckets``: a JSON file ``{"rules": [[prefix, bucket], ...]}``</span>
-</span><span id="line-1178"><span class="sd">    (first match wins); without one, each project folder is its own bucket. ``owner``: a regex</span>
-</span><span id="line-1179"><span class="sd">    for the owner's commit identity (default: this machine's git ``user.name`` and</span>
-</span><span id="line-1180"><span class="sd">    ``user.email``). ``windows``: owner-time caps in minutes (see :mod:`astern.timeledger`).</span>
-</span><span id="line-1181"><span class="sd">    """</span>
-</span><span id="line-1182">    <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
-</span><span id="line-1183">
-</span><span id="line-1184">    <span class="n">found</span> <span class="o">=</span> <span class="n">_timeledger</span><span class="o">.</span><span class="n">activity</span><span class="p">(</span><span class="n">home</span><span class="p">,</span> <span class="n">since</span><span class="o">=</span><span class="n">since</span><span class="p">,</span> <span class="n">until</span><span class="o">=</span><span class="n">until</span><span class="p">,</span> <span class="n">idle</span><span class="o">=</span><span class="n">idle</span><span class="p">)</span>
-</span><span id="line-1185">    <span class="k">if</span> <span class="n">buckets</span><span class="p">:</span>
-</span><span id="line-1186">        <span class="k">if</span> <span class="ow">not</span> <span class="n">root</span><span class="p">:</span>
-</span><span id="line-1187">            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"buckets= needs root=: its prefixes are relative to the projects folder"</span><span class="p">)</span>
-</span><span id="line-1188">        <span class="n">rules</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">buckets</span><span class="p">)</span><span class="o">.</span><span class="n">expanduser</span><span class="p">()</span><span class="o">.</span><span class="n">read_text</span><span class="p">())[</span><span class="s2">"rules"</span><span class="p">]</span>
-</span><span id="line-1189">        <span class="n">bucket</span> <span class="o">=</span> <span class="n">_timeledger</span><span class="o">.</span><span class="n">prefix_bucket</span><span class="p">(</span><span class="n">rules</span><span class="p">,</span> <span class="n">root</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">root</span><span class="p">))</span>
-</span><span id="line-1190">    <span class="k">else</span><span class="p">:</span>
-</span><span id="line-1191">        <span class="n">bucket</span> <span class="o">=</span> <span class="n">_timeledger</span><span class="o">.</span><span class="n">project_bucket</span>
-</span><span id="line-1192">    <span class="n">found_commits</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span id="line-1193">    <span class="k">if</span> <span class="n">with_commits</span> <span class="ow">and</span> <span class="n">root</span><span class="p">:</span>
-</span><span id="line-1194">        <span class="n">who</span> <span class="o">=</span> <span class="n">owner</span> <span class="ow">or</span> <span class="n">_git_identity</span><span class="p">()</span>
-</span><span id="line-1195">        <span class="k">if</span> <span class="ow">not</span> <span class="n">who</span><span class="p">:</span>
-</span><span id="line-1196">            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"no owner identity for commits: pass owner= or set git's user.name"</span><span class="p">)</span>
-</span><span id="line-1197">        <span class="n">found_commits</span> <span class="o">=</span> <span class="n">_timeledger</span><span class="o">.</span><span class="n">commits</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">since</span><span class="o">=</span><span class="n">since</span><span class="p">,</span> <span class="n">until</span><span class="o">=</span><span class="n">until</span><span class="p">,</span> <span class="n">owner</span><span class="o">=</span><span class="n">who</span><span class="p">)</span>
-</span><span id="line-1198">    <span class="n">caps</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">if</span> <span class="s2">"."</span> <span class="ow">in</span> <span class="n">w</span> <span class="k">else</span> <span class="nb">int</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">windows</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span> <span class="k">if</span> <span class="n">w</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
-</span><span id="line-1199">    <span class="k">return</span> <span class="n">_timeledger</span><span class="o">.</span><span class="n">rollup</span><span class="p">(</span><span class="n">found</span><span class="p">,</span> <span class="n">found_commits</span><span class="p">,</span> <span class="n">bucket</span><span class="o">=</span><span class="n">bucket</span><span class="p">,</span> <span class="n">windows</span><span class="o">=</span><span class="n">caps</span><span class="p">)</span></div>
+</span><span id="line-1165"><span class="k">def</span><span class="w"> </span><span class="nf">time_ledger</span><span class="p">(</span>
+</span><span id="line-1166">    <span class="n">since</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span id="line-1167">    <span class="o">*</span><span class="p">,</span>
+</span><span id="line-1168">    <span class="n">until</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="line-1169">    <span class="n">home</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="line-1170">    <span class="n">root</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="line-1171">    <span class="n">buckets</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="line-1172">    <span class="n">owner</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="line-1173">    <span class="n">idle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">_timeledger</span><span class="o">.</span><span class="n">IDLE_SECONDS</span><span class="p">,</span>
+</span><span id="line-1174">    <span class="n">windows</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"2,5,10"</span><span class="p">,</span>
+</span><span id="line-1175">    <span class="n">with_commits</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+</span><span id="line-1176"><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+</span><span id="line-1177"><span class="w">    </span><span class="sd">"""Where the owner's time and the agents' time went, per bucket, since ``since`` (ISO date).</span>
+</span><span id="line-1178">
+</span><span id="line-1179"><span class="sd">    ``home``: the transcripts' home(s) (``all`` for every account and mirrored machine).</span>
+</span><span id="line-1180"><span class="sd">    ``root``: the projects folder; repositories under it give the commits, and ``buckets``</span>
+</span><span id="line-1181"><span class="sd">    prefixes are relative to it. ``buckets``: a JSON file ``{"rules": [[prefix, bucket], ...]}``</span>
+</span><span id="line-1182"><span class="sd">    (first match wins); without one, each project folder is its own bucket. ``owner``: a regex</span>
+</span><span id="line-1183"><span class="sd">    for the owner's commit identity (default: this machine's git ``user.name`` and</span>
+</span><span id="line-1184"><span class="sd">    ``user.email``). ``windows``: owner-time caps in minutes (see :mod:`astern.timeledger`).</span>
+</span><span id="line-1185"><span class="sd">    """</span>
+</span><span id="line-1186">    <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+</span><span id="line-1187">
+</span><span id="line-1188">    <span class="n">found</span> <span class="o">=</span> <span class="n">_timeledger</span><span class="o">.</span><span class="n">activity</span><span class="p">(</span><span class="n">home</span><span class="p">,</span> <span class="n">since</span><span class="o">=</span><span class="n">since</span><span class="p">,</span> <span class="n">until</span><span class="o">=</span><span class="n">until</span><span class="p">,</span> <span class="n">idle</span><span class="o">=</span><span class="n">idle</span><span class="p">)</span>
+</span><span id="line-1189">    <span class="k">if</span> <span class="n">buckets</span><span class="p">:</span>
+</span><span id="line-1190">        <span class="k">if</span> <span class="ow">not</span> <span class="n">root</span><span class="p">:</span>
+</span><span id="line-1191">            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+</span><span id="line-1192">                <span class="s2">"buckets= needs root=: its prefixes are relative to the projects folder"</span>
+</span><span id="line-1193">            <span class="p">)</span>
+</span><span id="line-1194">        <span class="n">rules</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">buckets</span><span class="p">)</span><span class="o">.</span><span class="n">expanduser</span><span class="p">()</span><span class="o">.</span><span class="n">read_text</span><span class="p">())[</span><span class="s2">"rules"</span><span class="p">]</span>
+</span><span id="line-1195">        <span class="n">bucket</span> <span class="o">=</span> <span class="n">_timeledger</span><span class="o">.</span><span class="n">prefix_bucket</span><span class="p">(</span><span class="n">rules</span><span class="p">,</span> <span class="n">root</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">root</span><span class="p">))</span>
+</span><span id="line-1196">    <span class="k">else</span><span class="p">:</span>
+</span><span id="line-1197">        <span class="n">bucket</span> <span class="o">=</span> <span class="n">_timeledger</span><span class="o">.</span><span class="n">project_bucket</span>
+</span><span id="line-1198">    <span class="n">found_commits</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="line-1199">    <span class="k">if</span> <span class="n">with_commits</span> <span class="ow">and</span> <span class="n">root</span><span class="p">:</span>
+</span><span id="line-1200">        <span class="n">who</span> <span class="o">=</span> <span class="n">owner</span> <span class="ow">or</span> <span class="n">_git_identity</span><span class="p">()</span>
+</span><span id="line-1201">        <span class="k">if</span> <span class="ow">not</span> <span class="n">who</span><span class="p">:</span>
+</span><span id="line-1202">            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+</span><span id="line-1203">                <span class="s2">"no owner identity for commits: pass owner= or set git's user.name"</span>
+</span><span id="line-1204">            <span class="p">)</span>
+</span><span id="line-1205">        <span class="n">found_commits</span> <span class="o">=</span> <span class="n">_timeledger</span><span class="o">.</span><span class="n">commits</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">since</span><span class="o">=</span><span class="n">since</span><span class="p">,</span> <span class="n">until</span><span class="o">=</span><span class="n">until</span><span class="p">,</span> <span class="n">owner</span><span class="o">=</span><span class="n">who</span><span class="p">)</span>
+</span><span id="line-1206">    <span class="n">caps</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
+</span><span id="line-1207">        <span class="nb">float</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">if</span> <span class="s2">"."</span> <span class="ow">in</span> <span class="n">w</span> <span class="k">else</span> <span class="nb">int</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">windows</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span> <span class="k">if</span> <span class="n">w</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span><span id="line-1208">    <span class="p">)</span>
+</span><span id="line-1209">    <span class="k">return</span> <span class="n">_timeledger</span><span class="o">.</span><span class="n">rollup</span><span class="p">(</span><span class="n">found</span><span class="p">,</span> <span class="n">found_commits</span><span class="p">,</span> <span class="n">bucket</span><span class="o">=</span><span class="n">bucket</span><span class="p">,</span> <span class="n">windows</span><span class="o">=</span><span class="n">caps</span><span class="p">)</span></div>
 
-</span><span id="line-1200">
-</span><span id="line-1201">
-</span><span id="line-1202"><span class="n">_dispatch_config</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}</span>
-</span><span id="line-1203">
-</span><span id="line-1204"><span class="n">_dispatch_funcs</span> <span class="o">=</span> <span class="p">[</span>
-</span><span id="line-1205">    <span class="n">sync</span><span class="p">,</span>
-</span><span id="line-1206">    <span class="n">grep</span><span class="p">,</span>
-</span><span id="line-1207">    <span class="n">sessions</span><span class="p">,</span>
-</span><span id="line-1208">    <span class="n">show</span><span class="p">,</span>
-</span><span id="line-1209">    <span class="n">lenses</span><span class="p">,</span>
-</span><span id="line-1210">    <span class="n">report</span><span class="p">,</span>
-</span><span id="line-1211">    <span class="n">time_ledger</span><span class="p">,</span>
-</span><span id="line-1212">    <span class="n">judge</span><span class="p">,</span>
-</span><span id="line-1213">    <span class="n">estimate</span><span class="p">,</span>
-</span><span id="line-1214">    <span class="n">index</span><span class="p">,</span>
-</span><span id="line-1215">    <span class="n">recall</span><span class="p">,</span>
-</span><span id="line-1216">    <span class="n">install_skills</span><span class="p">,</span>
-</span><span id="line-1217">    <span class="n">why</span><span class="p">,</span>
-</span><span id="line-1218">    <span class="n">entire_enable</span><span class="p">,</span>
-</span><span id="line-1219">    <span class="n">entire_status</span><span class="p">,</span>
-</span><span id="line-1220"><span class="p">]</span>
+</span><span id="line-1210">
+</span><span id="line-1211">
+</span><span id="line-1212"><span class="n">_dispatch_config</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span id="line-1213">
+</span><span id="line-1214"><span class="n">_dispatch_funcs</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="line-1215">    <span class="n">sync</span><span class="p">,</span>
+</span><span id="line-1216">    <span class="n">grep</span><span class="p">,</span>
+</span><span id="line-1217">    <span class="n">sessions</span><span class="p">,</span>
+</span><span id="line-1218">    <span class="n">show</span><span class="p">,</span>
+</span><span id="line-1219">    <span class="n">lenses</span><span class="p">,</span>
+</span><span id="line-1220">    <span class="n">report</span><span class="p">,</span>
+</span><span id="line-1221">    <span class="n">time_ledger</span><span class="p">,</span>
+</span><span id="line-1222">    <span class="n">judge</span><span class="p">,</span>
+</span><span id="line-1223">    <span class="n">estimate</span><span class="p">,</span>
+</span><span id="line-1224">    <span class="n">index</span><span class="p">,</span>
+</span><span id="line-1225">    <span class="n">recall</span><span class="p">,</span>
+</span><span id="line-1226">    <span class="n">install_skills</span><span class="p">,</span>
+</span><span id="line-1227">    <span class="n">why</span><span class="p">,</span>
+</span><span id="line-1228">    <span class="n">entire_enable</span><span class="p">,</span>
+</span><span id="line-1229">    <span class="n">entire_status</span><span class="p">,</span>
+</span><span id="line-1230"><span class="p">]</span>
 </span></code></pre></div>
     </div></div>
           </main>
@@ -1455,7 +1465,7 @@
 </footer>
     </div>
     
-    <script src="../../_static/documentation_options.js?v=9fc46840"></script>
+    <script src="../../_static/documentation_options.js?v=544df88d"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
