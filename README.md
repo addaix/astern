@@ -12,9 +12,9 @@ astern sync                        # read new or changed transcripts, run the fr
 astern sessions                    # what's synced, newest first
 astern show <sid-prefix>           # one session: meta, ledger state, last turns, findings
 astern why <file>:<line>           # which session turn wrote this line (see below)
-astern report friction             # (in progress) a lens's findings as a markdown report
-astern judge                       # (in progress) run the LLM-judged lenses over what's synced
-astern estimate                    # (in progress) token/cost estimate before a judge batch runs
+astern report friction             # a lens's findings as a markdown report
+astern judge                       # run the LLM-judged lenses over what's synced
+astern estimate                    # token/cost estimate before a judge batch runs
 
 pip install "astern[recall]"       # + ir, for searching what past sessions already know
 astern index                       # index the store into ir corpora (idempotent)
@@ -28,26 +28,34 @@ astern install-skills              # link the shipped skills into ~/.claude/skil
 
 Each **lens** asks one question of a session and returns typed, evidence-backed findings — every finding points back at the turn it came from. Method: **H** = deterministic heuristic, zero tokens; **L** = LLM-judged, spends subscription tokens via the local `claude` CLI; **H→L** = a heuristic shortlist that only the survivors get judged on.
 
+**Registered today** (`astern lenses` lists them):
+
 | Lens | Question | Method |
 |---|---|---|
 | `stats` | The shape of a session in numbers — the cost model's own features | H |
-| `problems` | What problem was each session solving, and how was it solved? | L |
-| `recurring` | Which problems recur, and would a skill or subagent pay for itself? | H over L |
 | `rewrites` | What one-off code keeps being rewritten? | H→L |
 | `friction` | Where do agents get stuck, and what would remove the obstacle? | H→L |
+| `cost` | Where do the tokens and hours go, by project / task / model? | H |
+| `timeline` | What did I work on this week, and what landed? | H→L |
+| `tooling` | Which skills/subagents/MCP tools are used, unused, or missing? | H |
+| `hygiene` | Do agents read before they edit, and does that change over time? | H |
+| `synopsis` | What was this session for, what went wrong, and what does it suggest building? | L |
+
+**Planned** (designed in the plan, not yet in the registry; `astern lenses` will not list them):
+
+| Lens | Question | Method |
+|---|---|---|
+| `problems` | What problem was each session solving, and how was it solved? | L |
+| `recurring` | Which problems recur, and would a skill or subagent pay for itself? | H over L |
 | `jargon-in` | Which of my phrasings point to an established term I don't use? | L |
 | `jargon-out` | Which terms do agents use that I don't? | H→L |
 | `corrections` | What did I correct or re-affirm, and which corrections repeat? | H→L |
 | `prompt-quality` | Which prompt shapes lead to clean turns, which to flailing ones? | H→L |
-| `cost` | Where do the tokens and hours go, by project / task / model? | H |
-| `timeline` | What did I work on this week, and what landed? | H→L |
 | `decisions` | Which decisions were made, and why? | L |
 | `claims` | Where did an agent claim "done" and a later turn show otherwise? | H→L |
 | `questions` | What do agents keep asking me, and what did I answer? | H→L |
-| `tooling` | Which skills/subagents/MCP tools are used, unused, or missing? | H |
 | `memory-candidates` | Which restated facts should become memory, and where does memory drift? | H→L |
 | `evals` | Which (prompt, outcome) pairs make a regression test for a skill? | H |
-| `hygiene` | Do agents read before they edit, and does that change over time? | H |
 | `regression` | Did the harness or model change behaviour? | H |
 | `adherence` | Which CLAUDE.md/skill rules are followed, ignored, or fought? | L |
 | `subagents` | Which subagent / `Workflow` spawns paid for themselves? | H |
